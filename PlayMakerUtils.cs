@@ -4,6 +4,8 @@
 //
 // Version Alpha 0.2
 
+// edited in project using this as a submodule
+
 // INSTRUCTIONS
 // This set of utils is here to help custom action development, and scripts in general that wants to connect and work with PlayMaker API.
 
