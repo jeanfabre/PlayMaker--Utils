@@ -1,3 +1,5 @@
+// (c) Copyright HutongGames, LLC 2010-2015. All rights reserved.
+
 using System;
 using System.Collections;
 

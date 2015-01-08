@@ -1,8 +1,4 @@
-//	(c) Jean Fabre, 2013 All rights reserved.
-//	http://www.fabrejean.net
-//  contact: http://www.fabrejean.net/contact.htm
-//
-// Version Alpha 0.2
+// (c) Copyright HutongGames, LLC 2010-2015. All rights reserved.
 
 // edited in project using this as a submodule
 
