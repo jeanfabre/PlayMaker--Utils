@@ -1,57 +1,36 @@
 // (c) Copyright HutongGames, LLC 2010-2015. All rights reserved.
 
-// INSTRUCTIONS
-// This set of utils is here to help custom action development, and scripts in general that wants to connect and work with PlayMaker API.
-
-
 using UnityEngine;
 
 using HutongGames.PlayMaker;
 
 public partial class PlayMakerUtils {
 
-	/// <summary>
-	/// Initial work to create some menus for editors
-	/// </summary>
-	/// <param name="fromFsm">From fsm.</param>
-	public static void GetFsmEvents(PlayMakerFSM fromFsm)
+	public static void SendEventToGameObject(PlayMakerFSM fromFsm,GameObject target,string fsmEvent,bool includeChildren)
 	{
-		if (fromFsm==null)
-		{
-			return;
-		}
-
-		Debug.Log("fsm events ( found in the events tag, not necessarly used, warning");
-		foreach(var _event in fromFsm.FsmEvents)
-		{
-			Debug.Log(_event.Name +", is global: "+_event.IsGlobal);
-		}
-
-		Debug.Log("global transitions events, actually implemented in that fsm");
-		foreach(var _globaltransition in fromFsm.FsmGlobalTransitions)
-		{
-			var _event = _globaltransition.FsmEvent;
-			Debug.Log(_event.Name +", is global: "+_event.IsGlobal);
-		}
-
-		Debug.Log("global events, within this project");
-		foreach(var name in PlayMakerGlobals.Instance.Events)
-		{
-			Debug.Log(name);
-		}
-
+		SendEventToGameObject(fromFsm,target,fsmEvent,includeChildren,null);
 	}
-
+	
 	public static void SendEventToGameObject(PlayMakerFSM fromFsm,GameObject target,string fsmEvent)
 	{
-		SendEventToGameObject(fromFsm,target,fsmEvent,null);
+		SendEventToGameObject(fromFsm,target,fsmEvent,false,null);
 	}
-
+	
 	public static void SendEventToGameObject(PlayMakerFSM fromFsm,GameObject target,string fsmEvent,FsmEventData eventData)
+	{
+		SendEventToGameObject(fromFsm,target,fsmEvent,false,eventData);
+	}
+	
+	public static void SendEventToGameObject(PlayMakerFSM fromFsm,GameObject target,string fsmEvent,bool includeChildren,FsmEventData eventData)
 	{
 		if (eventData!=null)
 		{
 			HutongGames.PlayMaker.Fsm.EventData = eventData;
+		}
+		
+		if (fromFsm == null)
+		{
+			return;
 		}
 		
 		FsmEventTarget _eventTarget = new FsmEventTarget();
@@ -62,10 +41,12 @@ public partial class PlayMakerUtils {
 		owner.GameObject.Value = target;
 		_eventTarget.gameObject = owner;
 		_eventTarget.target = FsmEventTarget.EventTarget.GameObject;	
-			
-		_eventTarget.sendToChildren = false;
+		
+		_eventTarget.sendToChildren = includeChildren;
 		
 		fromFsm.Fsm.Event(_eventTarget,fsmEvent);
+		
+		
 	}
 
 	
