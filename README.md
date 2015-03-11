@@ -17,7 +17,7 @@ Instead of making hard copy, I use this repository as a sub module, allowing me 
 1: Delete the existing "PlayMaker Utils" folder  
 2: commit this deletion  
 3: in the side bar of SourceTree, right click "Add SubModule"  
-4: SourcePath/Url should be https://github.com/jeanfabre/PlayMaker--Utils.git 
+4: SourcePath/Url should be https://github.com/jeanfabre/PlayMaker--Utils.git  
 5: set the Locale Relative Path to "Assets/PlayMaker Utils"  
 6: Click Ok, let sourcetree import this submodule  
 
