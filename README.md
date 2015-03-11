@@ -14,12 +14,12 @@ Refer to the 2dPlatformer UnityLearn PlayMaker project to see how it's integrate
 Instead of making hard copy, I use this repository as a sub module, allowing me to work on this utils, add functions and improve it without having to switch projects or manually integrate changes from one project to another.
 
 ## Including PlayMaker Utils in your Github Rep as a Sub Module using SourceTree
-1: Delete the existing "PlayMaker Utils" folder
-2: commit this deletion
-3: in the side bar of SourceTree, right click "Add SubModule"
-4: SourcePath/Url should be https://github.com/jeanfabre/PlayMaker--Utils.git
-5: set the Locale Relative Path to "Assets/PlayMaker Utils"
-6: Click Ok, let sourcetree import this submodule
+1: Delete the existing "PlayMaker Utils" folder  
+2: commit this deletion  
+3: in the side bar of SourceTree, right click "Add SubModule"  
+4: SourcePath/Url should be https://github.com/jeanfabre/PlayMaker--Utils.git 
+5: set the Locale Relative Path to "Assets/PlayMaker Utils"  
+6: Click Ok, let sourcetree import this submodule  
 
 Now, make sure you "show" the submodules when you work on that project, and make visible this submodule entry in the side bar, it will prompt you with a pull icon when needed.
 
