@@ -1,5 +1,11 @@
 #PlayMaker Utils Change log
 
+###1.1.1
+**Fix:**  
+- Fixed PlayMakeEvent Broadcasting call  
+- Fixed PlayMakerEvent PropertyDrawer when EventTarget is undefined  
+
+
 ###1.1.0
 
 **New**  

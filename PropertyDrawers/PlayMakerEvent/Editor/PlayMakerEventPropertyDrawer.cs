@@ -55,6 +55,8 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 
 		public override void OnGUI (Rect pos, SerializedProperty prop, GUIContent label) {
 
+
+
 			if (!attributeScanned)
 			{
 				attributeScanned = true;
@@ -76,7 +78,6 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 					showOptions = true;
 				}
 			}
-
 
 			if (eventTargetVariable!=null)
 			{
@@ -104,16 +105,15 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 			bool isEventImplemented = false;
 
 
-
 			// Get the list of events
-			if (eventTarget==null || eventTarget.enumValueIndex<3) //undefined || Owner || GameObject || broadcastALL
+			if (eventTarget==null || eventTarget.enumValueIndex==2) // Undefined || broadcastAll
 			{
 				_eventList = PlayMakerInspectorUtils.GetGlobalEvents(true);
 
-				if (eventTarget.enumValueIndex==0 || eventTarget.enumValueIndex==1) // Owner || GameObject
-				{
-					isEventImplemented = PlayMakerInspectorUtils.DoesTargetImplementsEvent((GameObject)gameObject.objectReferenceValue,_eventName,true);
-				}
+			}else if (eventTarget.enumValueIndex==0 || eventTarget.enumValueIndex==1) // Owner || GameObject
+			{
+				isEventImplemented = PlayMakerInspectorUtils.DoesTargetImplementsEvent((GameObject)gameObject.objectReferenceValue,_eventName,true);
+
 			}else if (eventTarget.enumValueIndex ==3 ) // FsmComponent
 			{
 				PlayMakerFSM _fsm = (PlayMakerFSM)fsmComponent.objectReferenceValue;
