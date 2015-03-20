@@ -258,12 +258,12 @@ public partial class PlayMakerUtils {
 		
 		if (type==typeof(bool))
 		{
-			if (string.Equals(source,"true",StringComparison.InvariantCultureIgnoreCase))
+			if (string.Equals(source,"true",StringComparison.OrdinalIgnoreCase))
 			{
 				return true;
 			}
 			
-			if (string.Equals(source,"false",StringComparison.InvariantCultureIgnoreCase))
+			if (string.Equals(source,"false",StringComparison.OrdinalIgnoreCase))
 			{
 				return false;
 			}
