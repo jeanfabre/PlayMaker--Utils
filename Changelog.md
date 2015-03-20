@@ -4,6 +4,7 @@
 **Fix:**  
 - Fixed PlayMakeEvent Broadcasting call  
 - Fixed PlayMakerEvent PropertyDrawer when EventTarget is undefined  
+- Fixed Missing StringComparision enum for windows mobile
 
 
 ###1.1.0
