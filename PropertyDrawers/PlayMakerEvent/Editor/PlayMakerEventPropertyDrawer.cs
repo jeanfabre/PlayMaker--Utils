@@ -112,6 +112,7 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 
 			}else if (eventTarget.enumValueIndex==0 || eventTarget.enumValueIndex==1) // Owner || GameObject
 			{
+				_eventList = PlayMakerInspectorUtils.GetGlobalEvents(true);
 				isEventImplemented = PlayMakerInspectorUtils.DoesTargetImplementsEvent((GameObject)gameObject.objectReferenceValue,_eventName,true);
 
 			}else if (eventTarget.enumValueIndex ==3 ) // FsmComponent
