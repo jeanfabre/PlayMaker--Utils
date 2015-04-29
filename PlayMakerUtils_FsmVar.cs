@@ -310,6 +310,11 @@ public partial class PlayMakerUtils {
 				{
 					ok = true;
 				}
+				if (valueType.Equals(typeof(System.Byte))) // we are ok
+				{
+					ok = true;
+				}
+
 			}
 		}
 		
@@ -332,7 +337,12 @@ public partial class PlayMakerUtils {
 		}else if(valueType == typeof(int)){
 			FsmInt _target= fromFsm.Variables.GetFsmInt(fsmVar.variableName);
 			_target.Value = System.Convert.ToInt32(value);
-			
+
+		}else if(valueType == typeof(byte)){
+			FsmInt _target= fromFsm.Variables.GetFsmInt(fsmVar.variableName);
+			_target.Value = System.Convert.ToInt32(value);
+
+
 		}else if(valueType == typeof(System.Int64)){
 			
 			if (fsmVar.Type == VariableType.Int)
