@@ -49,7 +49,7 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 
 		public bool SendEvent(PlayMakerFSM fromFsm,PlayMakerEventTarget eventTarget)
 		{
-			//Debug.Log("Sending event <"+eventName+"> from fsm:"+fromFsm.FsmName+" "+eventTarget.eventTarget+" "+eventTarget.gameObject+" "+eventTarget.fsmComponent);
+		//	Debug.Log("Sending event <"+eventName+"> from fsm:"+fromFsm.FsmName+" "+eventTarget.eventTarget+" "+eventTarget.gameObject+" "+eventTarget.fsmComponent);
 
 			if (eventTarget.eventTarget == ProxyEventTarget.BroadCastAll)
 			{
