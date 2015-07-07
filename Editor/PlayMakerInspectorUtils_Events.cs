@@ -2,6 +2,8 @@
 
 
 using System;
+
+
 using System.Collections;
 using System.Collections.Generic;
 
@@ -11,18 +13,19 @@ using UnityEngine;
 using HutongGames.PlayMaker;
 using HutongGames.PlayMakerEditor;
 
+
 namespace HutongGames.PlayMaker.Ecosystem.Utils
 {
 	public partial class PlayMakerInspectorUtils {
 
-
+		
 		public static bool DoesTargetImplementsEvent(PlayMakerFSM fsm, string fsmEvent)
 		{
 			if (fsm==null)
 			{
 				return false;
 			}
-
+			
 			foreach(FsmTransition _transition in fsm.FsmGlobalTransitions)
 			{
 				if (_transition.EventName.Equals(fsmEvent))
@@ -46,14 +49,14 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 			
 			return false;
 		}
-
+		
 		public static bool DoesTargetImplementsEvent(GameObject target,string fsmEvent,bool includeChildren)
 		{
 			if (target==null)
 			{
 				return false;
 			}
-
+			
 			PlayMakerFSM[] _list = includeChildren?target.GetComponentsInChildren<PlayMakerFSM>(true):target.GetComponents<PlayMakerFSM>();
 			foreach(PlayMakerFSM _fsm in _list)
 			{
@@ -62,11 +65,11 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 					return true;
 				}
 			}
-
+			
 			return false;
 		}
-
-
+		
+		
 		/// <summary>
 		/// Gets the implemented global events.
 		/// </summary>
@@ -76,12 +79,12 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 		public static string[] GetImplementedGlobalEvents(PlayMakerFSM fromFsm,bool includeNone = false)
 		{
 			List<string> list = new List<string>();
-
+			
 			if (includeNone)
 			{
 				list.Add ("none");
 			}
-
+			
 			if (fromFsm!=null)
 			{
 				// global transitions events, actually implemented in that fsm
@@ -97,7 +100,7 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 			}
 			return list.ToArray();
 		}
-
+		
 		/// <summary>
 		/// Gets the global events list. 
 		/// </summary>
@@ -122,10 +125,10 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 				//list.Insert(0,"none");
 				ArrayUtility.Insert<string>(ref list,0,"none");
 			}
-
+			
 			return list;//.ToArray();
 		}
-
+		
 		/*
 		public static void GetFsmEvents(PlayMakerFSM fromFsm,bool includeNone = false)
 		{

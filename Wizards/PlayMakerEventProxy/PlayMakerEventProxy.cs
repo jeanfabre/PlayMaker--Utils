@@ -8,7 +8,7 @@ using HutongGames.PlayMaker;
 namespace HutongGames.PlayMaker.Ecosystem.Utils
 {
 	public class PlayMakerEventProxy : MonoBehaviour {
-		
+
 		public PlayMakerEventTarget eventTarget = new PlayMakerEventTarget(false);
 		
 		[EventTargetVariable("eventTarget")]
@@ -19,6 +19,7 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 
 		public void SendPlayMakerEvent()
 		{
+
 			if (!Application.isPlaying)
 			{
 				UnityEngine.Debug.Log("<color=RED>Application must run to send a PlayMaker Event, but the proxy at least works:</color>",this);
