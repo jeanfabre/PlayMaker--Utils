@@ -4,6 +4,9 @@
 **New:**  
 - Added automatic byte conversion case
 
+**Fix:**  
+- removed logs  
+
 ###1.1.1
 **Fix:**  
 - Fixed PlayMakeEvent Broadcasting call  

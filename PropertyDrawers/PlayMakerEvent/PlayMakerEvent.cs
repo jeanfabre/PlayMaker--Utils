@@ -21,6 +21,11 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 	[Serializable]
 	public class PlayMakerEvent{
 
+		/// <summary>
+		/// This host a self generated Fsm in case developer passes null as a source Fsm to fire an event.
+		/// </summary>
+		public static PlayMakerFSM FsmEventSender;
+
 
 		/// <summary>
 		/// The name of the event.
@@ -49,7 +54,18 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 
 		public bool SendEvent(PlayMakerFSM fromFsm,PlayMakerEventTarget eventTarget)
 		{
-			//Debug.Log("Sending event <"+eventName+"> from fsm:"+fromFsm.FsmName+" "+eventTarget.eventTarget+" "+eventTarget.gameObject+" "+eventTarget.fsmComponent);
+			if (fromFsm==null)
+			{
+				if (FsmEventSender==null)
+				{
+					FsmEventSender = new GameObject("PlayMaker Send Event Proxy").AddComponent<PlayMakerFSM>();
+					FsmEventSender.FsmName = "Send Event Proxy";
+					FsmEventSender.FsmDescription = "This Fsm was created at runtime, because a script is willing to send a PlayMaker event but has not specified the Fsm Sender";
+				}
+				fromFsm = FsmEventSender;
+			}
+
+		//	Debug.Log("Sending event <"+eventName+"> from fsm:"+fromFsm.FsmName+" "+eventTarget.eventTarget+" "+eventTarget.gameObject+" "+eventTarget.fsmComponent);
 
 			if (eventTarget.eventTarget == ProxyEventTarget.BroadCastAll)
 			{
