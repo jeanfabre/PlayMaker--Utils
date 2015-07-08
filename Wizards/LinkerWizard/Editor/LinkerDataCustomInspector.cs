@@ -9,6 +9,8 @@ using HutongGames.PlayMaker.Ecosystem.Utils;
 [CustomEditor(typeof(LinkerData))]
 public class LinkerDataCustomInspector : Editor
 {
+	static string ActionsPackagePath = "PlayMaker Utils/Wizards/LinkerWizard/LinkerWizardActions.unitypackage";
+
 	public override void OnInspectorGUI()
 	{
 		LinkerData _target = target as LinkerData;
@@ -27,6 +29,12 @@ public class LinkerDataCustomInspector : Editor
 			EditorUtility.SetDirty(_target);
 		}
 
+		if (GUILayout.Button("Install Actions"))
+		{
+			//Debug.Log("importing package "+Application.dataPath+"/"+ActionsPackagePath);
+
+			AssetDatabase.ImportPackage(Application.dataPath+"/"+ActionsPackagePath,true);
+		}
 
 	}
 

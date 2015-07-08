@@ -12,7 +12,9 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 {
 	public class LinkerData : ScriptableObject
 	{
-		public bool debug;
+		public bool debug = true;
+
+		public LinkerData self;
 
 		static public bool DebugAll
 		{
@@ -25,12 +27,28 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 			}
 		}
 
+		static private LinkerData _instance_;
 
-		static public LinkerData instance;
-		
+
+		static public LinkerData instance
+		{
+			get{
+				if (_instance_==null)
+				{
+					return null;
+				}
+				return _instance_.self;
+			}
+
+			set{
+				_instance_ = value;
+			}
+
+		}
 
 		void OnEnable() {
-			LinkerData.instance = this;
+			LinkerData._instance_ = this;
+			self = this;
 		}
 
 
@@ -40,14 +58,37 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 		[MenuItem("Assets/Create/PlayMaker/Linker Wizard")]
 		public static void CreateAsset ()
 		{
+
+
 			if (LinkerData.instance!=null)
 			{
+				string path = AssetDatabase.GetAssetPath(LinkerData.instance);
+				if (string.IsNullOrEmpty(path))
+				{
+					LinkerData.instance = null;
+				}else{
+
+					Selection.activeObject = LinkerData.instance;
+					EditorGUIUtility.PingObject(Selection.activeObject);
+					Debug.Log("Linker Wizard already exists at "+path);
+					return;
+				}
+			}
+
+			// search in the assets:
+		 	UnityEngine.Object[] _assets =	PlayMakerUtils.GetAssetsOfType(typeof(LinkerData),".asset");
+
+			if (_assets!=null && _assets.Length>0)
+			{
+				LinkerData.instance = _assets[0] as LinkerData;
+
 				Selection.activeObject = LinkerData.instance;
 				EditorGUIUtility.PingObject(Selection.activeObject);
-				Debug.Log("Linker Wizard already exists");
+				Debug.Log("Linker Wizard already exists at "+AssetDatabase.GetAssetPath(LinkerData.instance));
 				return;
 			}
-			PlayMakerUtils.CreateAsset<LinkerData>();
+
+			PlayMakerUtils.CreateAsset<LinkerData>("Linker Wizard");
 		}
 
 	#endif
