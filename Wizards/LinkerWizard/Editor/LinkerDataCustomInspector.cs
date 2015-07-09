@@ -20,21 +20,31 @@ public class LinkerDataCustomInspector : Editor
 		//GUILayout.Box("Hello",FsmEditorStyles.LargeTitleWithLogo,GUILayout.Height(42f));
 		GUI.Box (new Rect (0f, 0f, Screen.width, 42f), "Linker Wizard", FsmEditorStyles.LargeTitleWithLogo);
 
-		GUILayout.Label("Check 'debug' for tracking all reflections");
 
+		GUILayout.Label("1: Make sure you installed them actions");
+
+		if (GUILayout.Button("Install Actions"))
+		{
+			//Debug.Log("importing package "+Application.dataPath+"/"+ActionsPackagePath);
+			
+			AssetDatabase.ImportPackage(Application.dataPath+"/"+ActionsPackagePath,true);
+		}
+
+
+		GUILayout.Label("2: Check 'debug' for tracking all reflections");
+
+		EditorGUI.indentLevel++;
 		bool _debug = EditorGUILayout.Toggle("Debug",_target.debug);
+		EditorGUI.indentLevel--;
 		if (_debug!=_target.debug)
 		{
 			_target.debug = _debug;
 			EditorUtility.SetDirty(_target);
 		}
 
-		if (GUILayout.Button("Install Actions"))
-		{
-			//Debug.Log("importing package "+Application.dataPath+"/"+ActionsPackagePath);
+		GUILayout.Label("3: Run your scenes from start to finish");
+		GUILayout.Label("      Check the Unity Console for usages ");
 
-			AssetDatabase.ImportPackage(Application.dataPath+"/"+ActionsPackagePath,true);
-		}
 
 	}
 

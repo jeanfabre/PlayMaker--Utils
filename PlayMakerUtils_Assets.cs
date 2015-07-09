@@ -7,11 +7,14 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 
+#if UNITY_EDITOR
 using UnityEditor;
+#endif
 using UnityEngine;
 
 public partial class PlayMakerUtils {
 
+	#if UNITY_EDITOR
 	/// <summary>
 	//	This makes it easy to create, name and place unique new ScriptableObject asset files.
 	/// </summary>
@@ -86,4 +89,5 @@ public partial class PlayMakerUtils {
 		
 		return tempObjects.ToArray();
 	}
+	#endif
 }
