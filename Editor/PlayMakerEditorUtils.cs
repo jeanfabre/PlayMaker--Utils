@@ -135,7 +135,7 @@ public class PlayMakerEditorUtils : Editor {
 	/// <summary>
 	//	This makes it easy to create, name and place unique new ScriptableObject asset files.
 	/// </summary>
-	public static void CreateAsset<T> () where T : ScriptableObject
+	public static void CreateAsset<T> (string name="") where T : ScriptableObject
 	{
 		T asset = ScriptableObject.CreateInstance<T> ();
 		
@@ -148,8 +148,10 @@ public class PlayMakerEditorUtils : Editor {
 		{
 			path = path.Replace (Path.GetFileName (AssetDatabase.GetAssetPath (Selection.activeObject)), "");
 		}
-		
-		string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath (path + "/New " + typeof(T).ToString() + ".asset");
+
+		string _name = string.IsNullOrEmpty(name)? "New " + typeof(T).ToString() : name ;
+
+		string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath (path + "/" + _name + ".asset");
 		
 		AssetDatabase.CreateAsset (asset, assetPathAndName);
 		
@@ -157,6 +159,87 @@ public class PlayMakerEditorUtils : Editor {
 		AssetDatabase.Refresh();
 		EditorUtility.FocusProjectWindow ();
 		Selection.activeObject = asset;
+	}
+
+
+	
+	/// <summary>
+	/// Used to get assets of a certain type and file extension from entire project
+	/// </summary>
+	/// <param name="type">The type to retrieve. eg typeof(GameObject).</param>
+	/// <param name="fileExtension">The file extention the type uses eg ".prefab".</param>
+	/// <returns>An Object array of assets.</returns>
+	public static UnityEngine.Object[] GetAssetsOfType(System.Type type, string fileExtension)
+	{
+		List<UnityEngine.Object> tempObjects = new List<UnityEngine.Object>();
+		DirectoryInfo directory = new DirectoryInfo(Application.dataPath);
+		FileInfo[] goFileInfo = directory.GetFiles("*" + fileExtension, SearchOption.AllDirectories);
+		
+		int i = 0; int goFileInfoLength = goFileInfo.Length;
+		FileInfo tempGoFileInfo; string tempFilePath;
+		UnityEngine.Object tempGO;
+		for (; i < goFileInfoLength; i++)
+		{
+			tempGoFileInfo = goFileInfo[i];
+			if (tempGoFileInfo == null)
+				continue;
+			
+			tempFilePath = tempGoFileInfo.FullName;
+			tempFilePath = tempFilePath.Replace(@"\", "/").Replace(Application.dataPath, "Assets");
+			
+			//Debug.Log(tempFilePath + "\n" + Application.dataPath);
+			
+			tempGO = AssetDatabase.LoadAssetAtPath(tempFilePath, typeof(UnityEngine.Object)) as UnityEngine.Object;
+			if (tempGO == null)
+			{
+				//Debug.LogWarning("Skipping Null");
+				continue;
+			}
+			else if (tempGO.GetType() != type)
+			{
+				//Debug.LogWarning("Skipping " + tempGO.GetType().ToString());
+				continue;
+			}
+			
+			tempObjects.Add(tempGO);
+		}
+		
+		
+		
+		
+		return tempObjects.ToArray();
+	}
+	
+	public static UnityEngine.Object GetAssetByName(string fileName)
+	{
+		DirectoryInfo directory = new DirectoryInfo(Application.dataPath);
+		FileInfo[] goFileInfo = directory.GetFiles("*" + fileName, SearchOption.AllDirectories);
+		
+		int i = 0; int goFileInfoLength = goFileInfo.Length;
+		FileInfo tempGoFileInfo; string tempFilePath;
+		UnityEngine.Object tempGO;
+		for (; i < goFileInfoLength; i++)
+		{
+			tempGoFileInfo = goFileInfo[i];
+			if (tempGoFileInfo == null)
+				continue;
+			
+			tempFilePath = tempGoFileInfo.FullName;
+			tempFilePath = tempFilePath.Replace(@"\", "/").Replace(Application.dataPath, "Assets");
+			
+			//	Debug.Log(tempFilePath + "\n" + Application.dataPath);
+			
+			tempGO = AssetDatabase.LoadAssetAtPath(tempFilePath, typeof(UnityEngine.Object)) as UnityEngine.Object;
+			if (tempGO == null)
+			{
+				Debug.LogWarning("Skipping Null");
+				continue;
+			}
+			
+			return tempGO;
+		}
+		
+		return null;
 	}
 
 }

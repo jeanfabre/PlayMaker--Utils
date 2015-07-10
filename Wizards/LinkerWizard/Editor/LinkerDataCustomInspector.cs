@@ -1,4 +1,9 @@
 ﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+
+using System.Xml;
+
 using UnityEngine;
 using UnityEditor;
 
@@ -10,6 +15,7 @@ using HutongGames.PlayMaker.Ecosystem.Utils;
 public class LinkerDataCustomInspector : Editor
 {
 	static string ActionsPackagePath = "PlayMaker Utils/Wizards/LinkerWizard/LinkerWizardActions.unitypackage";
+
 
 	public override void OnInspectorGUI()
 	{
@@ -25,9 +31,10 @@ public class LinkerDataCustomInspector : Editor
 
 		if (GUILayout.Button("Install Actions"))
 		{
-			//Debug.Log("importing package "+Application.dataPath+"/"+ActionsPackagePath);
+			Debug.Log("importing package "+Application.dataPath+"/"+ActionsPackagePath);
 			
 			AssetDatabase.ImportPackage(Application.dataPath+"/"+ActionsPackagePath,true);
+
 		}
 
 
@@ -46,6 +53,153 @@ public class LinkerDataCustomInspector : Editor
 		GUILayout.Label("      Check the Unity Console for usages ");
 
 
+		GUILayout.Label("4: Update Linker xml file");
+		if (GUILayout.Button("Update Linker content"))
+		{
+			UpdateLinkerContent(_target);
+			GUIUtility.ExitGUI();
+		}
+
+		if (_target.LinkContentUpdateDone)
+		{
+			GUILayout.Label("5: You can now publish and test on device");
+			if (GUILayout.Button("Ping Link.xml in Project"))
+			{
+				AssetDatabase.Refresh();
+				EditorGUIUtility.PingObject(_target.Asset);
+			}
+		}
+		GUILayout.BeginHorizontal(GUILayout.Height(25));
+			GUILayout.BeginVertical();
+				GUILayout.FlexibleSpace();
+					FsmEditorGUILayout.Divider();
+				GUILayout.FlexibleSpace();
+			GUILayout.EndVertical();
+			GUILayout.Label("preview",GUILayout.ExpandWidth(false));
+			GUILayout.BeginVertical();
+				GUILayout.FlexibleSpace();
+					FsmEditorGUILayout.Divider();
+				GUILayout.FlexibleSpace();
+			GUILayout.EndVertical();
+		GUILayout.EndHorizontal();
+
+
+		foreach(KeyValuePair<string, List<string>> entry in _target.linkerEntries)
+		{
+			GUILayout.Label(entry.Key);
+			foreach(string _item in entry.Value)
+			{
+				GUILayout.Label("    "+_item);
+			}
+		}
 	}
 
+
+	public void UpdateLinkerContent(LinkerData _target)
+	{
+		_target.LinkContentUpdateDone = false;
+
+		_target.Asset = PlayMakerEditorUtils.GetAssetByName("link.xml") as TextAsset;
+
+		string _assetPath = Application.dataPath +"/link.xml";
+
+
+		// create xml doc
+		XmlDocument _doc = new XmlDocument();
+
+		XmlNode _rootNode;
+		if (_target.Asset != null)
+		{
+			_assetPath = AssetDatabase.GetAssetPath(_target.Asset);
+			_doc.LoadXml(_target.Asset.text);
+			_rootNode = _doc.SelectSingleNode("linker");
+		}else{
+			_rootNode = _doc.CreateNode(XmlNodeType.Element,"linker",null);
+			_doc.AppendChild(_rootNode);
+		}
+
+		if (_rootNode==null){
+			Debug.LogError("Link.xml seems to be badly formatted");
+			return;
+		}
+
+		foreach(KeyValuePair<string, List<string>> entry in _target.linkerEntries)
+		{
+			string assemblyName = entry.Key;
+
+			XmlNode _assemblyNode = _doc.SelectSingleNode("//assembly[@fullname='"+assemblyName+"']");
+			if (_assemblyNode==null)
+			{
+				_assemblyNode = _doc.CreateNode(XmlNodeType.Element,"assembly",null);
+				_rootNode.AppendChild(_assemblyNode);
+
+				XmlAttribute _fullnameAttr = _doc.CreateAttribute("fullname");
+				_fullnameAttr.Value = assemblyName;
+				_assemblyNode.Attributes.Append(_fullnameAttr);
+			}
+
+			foreach(string _type in entry.Value)
+			{
+				XmlNode _typeNode = _assemblyNode.SelectSingleNode("./type[@fullname='"+_type+"']");
+				if (_typeNode==null)
+				{
+					_typeNode = _doc.CreateNode(XmlNodeType.Element,"type",null);
+					_assemblyNode.AppendChild(_typeNode);
+					
+					XmlAttribute _fullnameAttr = _doc.CreateAttribute("fullname");
+					_fullnameAttr.Value = _type;
+					_typeNode.Attributes.Append(_fullnameAttr);
+
+					XmlAttribute _preserveAttr = _doc.CreateAttribute("preserve");
+					_preserveAttr.Value = "all";
+					_typeNode.Attributes.Append(_preserveAttr);
+				}
+			}
+		}
+
+		Debug.Log("Updated and Saving linker xml content to : "+_assetPath);
+		_doc.Save(_assetPath);
+
+		AssetDatabase.Refresh();
+		EditorUtility.FocusProjectWindow ();
+		_target.Asset = AssetDatabase.LoadAssetAtPath(_assetPath,typeof(TextAsset)) as TextAsset;
+
+		_target.LinkContentUpdateDone = true;
+	}
+
+	[MenuItem("PlayMaker/Addons/Tools/Create Linker Wizard")]
+	[MenuItem("Assets/Create/PlayMaker/Linker Wizard")]
+	public static void CreateAsset ()
+	{
+
+		if (LinkerData.instance!=null)
+		{
+			string path = AssetDatabase.GetAssetPath(LinkerData.instance);
+			if (string.IsNullOrEmpty(path))
+			{
+				LinkerData.instance = null;
+			}else{
+				
+				Selection.activeObject = LinkerData.instance;
+				EditorGUIUtility.PingObject(Selection.activeObject);
+				Debug.Log("Linker Wizard already exists at "+path);
+				return;
+			}
+		}
+		
+		// search in the assets:
+		UnityEngine.Object[] _assets =	PlayMakerEditorUtils.GetAssetsOfType(typeof(LinkerData),".asset");
+		
+		if (_assets!=null && _assets.Length>0)
+		{
+			LinkerData.instance = _assets[0] as LinkerData;
+			
+			Selection.activeObject = LinkerData.instance;
+			EditorGUIUtility.PingObject(Selection.activeObject);
+			Debug.Log("Linker Wizard already exists at "+AssetDatabase.GetAssetPath(LinkerData.instance));
+			return;
+		}
+		
+		PlayMakerEditorUtils.CreateAsset<LinkerData>("Linker Wizard");
+	}
 }
