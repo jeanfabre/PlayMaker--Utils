@@ -321,7 +321,7 @@ public partial class PlayMakerUtils {
 		
 		if (!ok)
 		{
-			Debug.LogError("The fsmVar value <"+storageType+"> doesn't match the value <"+valueType+">");
+			Debug.LogError("The fsmVar value <"+storageType+"> doesn't match the value <"+valueType+"> on state"+fromFsm.ActiveStateName+" on fsm:"+fromFsm.Name+" on GameObject:"+fromFsm.GameObjectName);
 			return false;
 		}
 		

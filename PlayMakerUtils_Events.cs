@@ -161,7 +161,40 @@ public partial class PlayMakerUtils {
 		
 		return false;
 	}
-	
+
+	public FsmEvent CreateGlobalEvent(string EventName)
+	{
+		bool _existsAlready;
+		return CreateGlobalEvent(EventName,out _existsAlready);
+	}
+
+	/// <summary>
+	/// Creates the global event if needed.
+	/// </summary>
+	/// <returns><c>true</c>, if global event was created <c>false</c> if event existed already.</returns>
+	/// <param name="EventName">Event name.</param>
+	public FsmEvent CreateGlobalEvent(string EventName,out bool ExistsAlready)
+	{
+		FsmEvent _event = FsmEvent.GetFsmEvent(EventName);
+		ExistsAlready = FsmEvent.EventListContains(EventName);
+
+		if (ExistsAlready)
+		{
+			if (_event!=null && _event.IsGlobal)
+			{
+				_event.IsGlobal = true;
+			}
+
+			return _event;
+		}
+
+		_event = new FsmEvent(EventName);
+		_event.IsGlobal = true;
+		FsmEvent.AddFsmEvent(_event);
+
+		return _event;
+	}
+
 	/*
 	public bool DoesTargetMissEventImplementation(PlayMakerFSM fsm, string fsmEvent)
 	{

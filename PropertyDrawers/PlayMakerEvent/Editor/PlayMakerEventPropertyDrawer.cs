@@ -50,11 +50,92 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 		
 		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
 		{
+			rowCount = 0;
+
+			if (!attributeScanned)
+			{
+				attributeScanned = true;
+				
+				// check for EventTargetVariable Attribute
+				object[] _evenTargets = this.fieldInfo.GetCustomAttributes(typeof(EventTargetVariable),true);
+				
+				if (_evenTargets.Length>0)
+				{
+					string variableName = (_evenTargets[0] as EventTargetVariable).variable;
+					eventTargetVariable = property.serializedObject.FindProperty(variableName);
+				}
+
+			}
+
+			CacheOwnerGameObject(property.serializedObject);
+
+			eventName = property.FindPropertyRelative("eventName");
+			string _eventName = eventName.stringValue;
+
+			
+			if (eventTargetVariable!=null)
+			{
+				eventTarget = eventTargetVariable.FindPropertyRelative("eventTarget");
+			}
+
+			string[] _eventList = new string[0];
+			
+			bool isEventImplemented = false;
+
+
+			
+			// Get the list of events
+			if (eventTarget==null || eventTarget.enumValueIndex==2) // Undefined || broadcastAll
+			{
+				_eventList = PlayMakerInspectorUtils.GetGlobalEvents(true);
+				
+			}else if (eventTarget.enumValueIndex==0 || eventTarget.enumValueIndex==1) // Owner || GameObject
+			{
+				_eventList = PlayMakerInspectorUtils.GetGlobalEvents(true);
+				if (gameObject!=null)
+				{
+					isEventImplemented = PlayMakerInspectorUtils.DoesTargetImplementsEvent((GameObject)gameObject.objectReferenceValue,_eventName,true);
+				}
+				
+			}else if (eventTarget.enumValueIndex ==3 ) // FsmComponent
+			{
+				PlayMakerFSM _fsm = (PlayMakerFSM)fsmComponent.objectReferenceValue;
+				_eventList = PlayMakerInspectorUtils.GetImplementedGlobalEvents(_fsm,true);
+				
+				isEventImplemented =  PlayMakerInspectorUtils.DoesTargetImplementsEvent(_fsm,_eventName);
+			}
+
+
+			int selected = 0;
+			if (! string.IsNullOrEmpty(_eventName))
+			{
+				selected = ArrayUtility.IndexOf<string>(_eventList,_eventName);
+			}
+
+			rowCount++;
+
+			// feedback
+			if (selected ==-1)
+			{
+				rowCount++;
+			}
+
+			if (eventTarget!=null)
+			{
+			if(selected!=0 && eventTarget.enumValueIndex!=2) // not none and not broadcasting
+			{
+				if (selected>0 && !isEventImplemented)
+				{
+					rowCount++;
+				}
+			}
+			}
+
 			return base.GetPropertyHeight(property,label) * (rowCount);
 		}
 
-		public override void OnGUI (Rect pos, SerializedProperty prop, GUIContent label) {
 
+		public override void OnGUI (Rect pos, SerializedProperty prop, GUIContent label) {
 
 
 			if (!attributeScanned)
@@ -139,7 +220,7 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 
 			string _popupLabel = label.text;
 
-			if(selected!=0 && eventTarget.enumValueIndex!=2) // not none and not broadcasting
+			if(selected!=0 && eventTarget!=null && eventTarget.enumValueIndex!=2) // not none and not broadcasting
 			{
 				if ((selected>0 && !isEventImplemented )|| selected ==-1)
 				{
@@ -209,8 +290,9 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 					"<color=red>"+_eventName+"</color>"
 					);
 			}
+
 			
-			if(selected!=0 && eventTarget.enumValueIndex!=2) // not none and not broadcasting
+			if(selected!=0 && eventTarget!=null && eventTarget.enumValueIndex!=2) // not none and not broadcasting
 			{
 				if (selected>0 && !isEventImplemented)
 				{
@@ -221,9 +303,6 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 						);
 				}
 			}
-
-
-
 
 			// attempt to refresh UI and avoid glitch
 			if (row!=rowCount)
