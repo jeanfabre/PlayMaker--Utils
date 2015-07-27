@@ -50,25 +50,34 @@ public class LinkerDataCustomInspector : Editor
 		}
 
 		GUILayout.Label("3: Run your scenes from start to finish");
-		GUILayout.Label("      Check the Unity Console for usages ");
+		GUILayout.Label("   Check the preview below for usages as they come ");
 
-
-		GUILayout.Label("4: Update Linker xml file");
-		if (GUILayout.Button("Update Linker content"))
+		if (_target.linkerEntries.Count>0)
 		{
-			UpdateLinkerContent(_target);
-			GUIUtility.ExitGUI();
-		}
-
-		if (_target.LinkContentUpdateDone)
-		{
-			GUILayout.Label("5: You can now publish and test on device");
-			if (GUILayout.Button("Ping Link.xml in Project"))
+			GUILayout.Label("4: Update Linker xml file");
+			if (GUILayout.Button("Update Linker content"))
 			{
-				AssetDatabase.Refresh();
-				EditorGUIUtility.PingObject(_target.Asset);
+				UpdateLinkerContent(_target);
+				GUIUtility.ExitGUI();
+			}
+			if (_target.LinkContentUpdateDone)
+			{
+				GUILayout.Label("5: You can now publish and test on device");
+				GUILayout.BeginHorizontal();
+				if (GUILayout.Button("Ping link.xml"))
+				{
+					EditorGUIUtility.PingObject(_target.Asset);
+				}
+				if (GUILayout.Button("Select link.xml"))
+				{
+					Selection.activeObject = _target.Asset;
+					EditorGUIUtility.PingObject(_target.Asset);
+				}
+				GUILayout.EndHorizontal();
 			}
 		}
+
+
 		GUILayout.BeginHorizontal(GUILayout.Height(25));
 			GUILayout.BeginVertical();
 				GUILayout.FlexibleSpace();
