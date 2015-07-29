@@ -25,9 +25,7 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 			
 			SerializedProperty eventTarget = property.FindPropertyRelative("eventTarget");
 			SerializedProperty gameObject = property.FindPropertyRelative("gameObject");
-			SerializedProperty includeChildren = property.FindPropertyRelative("includeChildren");
-			SerializedProperty fsmComponent = property.FindPropertyRelative("fsmComponent");
-			
+	
 			CacheOwnerGameObject(property.serializedObject);
 			
 			rowCount = 0;
