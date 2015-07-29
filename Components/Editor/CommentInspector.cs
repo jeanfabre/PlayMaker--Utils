@@ -4,10 +4,10 @@ using System.Collections;
 using UnityEditor;
 using UnityEngine;
 
-namespace Net.FabreJean
+namespace  HutongGames.PlayMaker.Ecosystem.utils
 {
 	[CustomEditor(typeof(Comment))]
-	public class CommentInspector : Editor {
+	public class CommentInspector : UnityEditor.Editor {
 
 		public override void OnInspectorGUI()
 		{
