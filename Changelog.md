@@ -1,8 +1,17 @@
 #PlayMaker Utils Change log
 
+###1.1.3
+**New:**  
+- LinkerData introspection system  
+- new PlayMakerUtils tools for Assets( creation and search)
+
+
 ###1.1.2
 **New:**  
 - Added automatic byte conversion case
+
+**Fix:**  
+- removed logs  
 
 ###1.1.1
 **Fix:**  
