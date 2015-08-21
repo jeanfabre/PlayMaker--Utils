@@ -20,16 +20,18 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 		public void SendPlayMakerEvent()
 		{
 
+			if (debug || !Application.isPlaying)
+			{
+				UnityEngine.Debug.Log("Send "+fsmEvent.ToString()+" on "+eventTarget.ToString(),this);
+			}
+
 			if (!Application.isPlaying)
 			{
-				UnityEngine.Debug.Log("<color=RED>Application must run to send a PlayMaker Event, but the proxy at least works:</color>",this);
+				UnityEngine.Debug.Log("<color=RED>Application must run to send a PlayMaker Event, but the proxy at least works</color>",this);
 				return;
 			}
 
-			if (debug)
-			{
-				UnityEngine.Debug.Log("SendPlayMakerEvent "+fsmEvent+" on "+eventTarget,this);
-			}
+
 
 			fsmEvent.SendEvent(null,eventTarget);
 		}

@@ -1,5 +1,5 @@
 ﻿// (c) Copyright HutongGames, LLC 2010-2015. All rights reserved.
-#if FALSE
+
 using System;
 using System.IO;
 using System.Collections;
@@ -9,51 +9,151 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
+using HutongGames.PlayMakerEditor.Ecosystem.Utils;
+
 namespace HutongGames.PlayMakerEditor
 {
 	public class PlayMakerEventProxyCreatorWizard : EditorWindow
 	{ 
 
+		PlayMakerEventProxyCreator eventProxyCreator = new PlayMakerEventProxyCreator();
 		
+		
+		public PlayMakerEventProxyCreator.PlayMakerEventProxyCreatorDefinition currentDefinition = new PlayMakerEventProxyCreator.PlayMakerEventProxyCreatorDefinition();
+
+		bool ReBuildPreview;
+
 		#region UI
 
-		
+		GUIStyle labelStyle;
+
 		public void OnGUI()
 		{
 			FsmEditorStyles.Init();
 
-			
+			// set style ot use rich text.
+			if (labelStyle==null)
+			{
+				labelStyle = GUI.skin.GetStyle("Label");
+				labelStyle.richText = true;
+			}
+
 			FsmEditorGUILayout.ToolWindowLargeTitle(this, "Event Proxy Creator");
 
 			GUILayout.Label(" ");
 			GUILayout.Label("This Proxy lets you create a Component with a public method.\n" +
-				"That method will send a PlayMaker event.\n" +
+				"That method will send a PlayMaker event that you can define in the component proxy Inspector.\n" +
 				"Use this when you expect Unity or third party assets to fire messages\n" +
 				"and you want to catch that message as a PlayMaker Event");
-			OnGUI_DoEnumDefinitionForm();
-		}
-
-		string ClassName = "MyMessageProxy";
-		string MethodName= "MyMessage";
-
-		void OnGUI_DoEnumDefinitionForm()
-		{
-
-			// NAME
-			GUILayout.Label("Class Name");
-			ClassName = GUILayout.TextField(ClassName);
-			
-			// Method Name
-			GUILayout.Label("Method/Message Name");
-			ClassName = GUILayout.TextField(ClassName);
 
 			FsmEditorGUILayout.Divider();
 
-			if (GUILayout.Button("Create")) // Label "Save Changes" when we detected that we are editing an existing enum
+			OnGUI_DoDefinitionForm();
+		}
+
+
+
+		void OnGUI_DoDefinitionForm()
+		{
+			Color _orig = Color.clear;
+			ReBuildPreview = false;
+
+			/*
+			if (currentFileDetails!=null)
 			{
-				//enumCreator.CreateEnum(currentEnum);
+				GUILayout.Label("You are editing an existing enum");
+				FsmEditorGUILayout.Divider();
+			}
+			*/
+			// FOLDER
+			_orig = GUI.color;
+			if (!currentDefinition.FolderPathValidation.success)
+			{
+				GUI.color = new Color(255,165,0);
+			}
+			GUILayout.Label("Project Folder: <color=#ffa500><b>"+currentDefinition.FolderPathValidation.message+"</b></color>");
+			currentDefinition.FolderPath = GUILayout.TextField(currentDefinition.FolderPath);
+			GUI.color = _orig;
+
+			// NAMESPACE
+			_orig = GUI.color;
+			if (!currentDefinition.NameSpaceValidation.success)
+			{
+				GUI.color = Color.red;
+			}
+			GUILayout.Label("NameSpace: <color=#B20000><b>"+currentDefinition.NameSpaceValidation.message+"</b></color>");
+			string _nameSpace = GUILayout.TextField(currentDefinition.NameSpace);
+			GUI.color = _orig;
+			if (!string.Equals(_nameSpace,currentDefinition.NameSpace))
+			{
+				currentDefinition.NameSpace = _nameSpace;
+				ReBuildPreview = true;
 			}
 
+			// NAME
+			_orig = GUI.color;
+			if (!currentDefinition.NameValidation.success)
+			{
+				GUI.color = Color.red;
+			}
+			GUILayout.Label("Class Name: <color=#B20000><b>"+currentDefinition.NameValidation.message+"</b></color>");
+			string _className = GUILayout.TextField(currentDefinition.Name);
+			GUI.color = _orig;
+			if (!string.Equals(_className,currentDefinition.Name))
+			{
+				currentDefinition.Name = _className;
+				ReBuildPreview = true;
+			}
+
+			
+			// Method Name
+			_orig = GUI.color;
+			if (!currentDefinition.PublicMethodValidation.success)
+			{
+				GUI.color = Color.red;
+			}
+			GUILayout.Label("Public Method/Message Name: <color=#B20000><b>"+currentDefinition.PublicMethodValidation.message+"</b></color>");
+			string _methodName = GUILayout.TextField(currentDefinition.PublicMethodName);
+			GUI.color = _orig;
+			if (!string.Equals(_methodName,currentDefinition.PublicMethodName))
+			{
+				currentDefinition.PublicMethodName = _methodName;
+				ReBuildPreview = true;
+			}
+
+			
+			FsmEditorGUILayout.Divider();
+
+			if (!currentDefinition.DefinitionValidation.success)
+			{
+				GUILayout.Label("<color=#B20000><b>"+currentDefinition.DefinitionValidation.message+"</b></color>");
+			}
+
+			if (currentDefinition.DefinitionValidation.success)
+			{
+				if (GUILayout.Button("Create")) // Label "Save Changes" when we detected that we are editing an existing enum
+				{
+					eventProxyCreator.CreateProxy(currentDefinition);
+				}
+			}else{
+				
+				Color _color = GUI.color;
+				
+				_color.a = 0.5f;
+				GUI.color = _color;
+				GUILayout.Label("Create","Button");
+				_color.a = 1f;
+				GUI.color =_color;
+			}
+
+
+			if (ReBuildPreview )
+			{
+				currentDefinition.ValidateDefinition();
+				
+				//enumCreator.BuildScriptLiteral(currentEnum);
+				Repaint();
+			}
 		}
 
 		#endregion
@@ -64,7 +164,7 @@ namespace HutongGames.PlayMakerEditor
 		public static PlayMakerEventProxyCreatorWizard Instance;
 
 
-		[MenuItem ( "PlayMaker/Tools/Addons/PlayMaker Event Proxy Creator Wizard")]
+		[MenuItem ( "PlayMaker/Addons/Tools/PlayMaker Event Proxy Wizard")]
 		static public void Init () {
 			
 			// Get existing open window or if none, make a new one:
@@ -101,4 +201,3 @@ namespace HutongGames.PlayMakerEditor
 		#endregion Window Management
 	}
 }
-#endif
