@@ -80,6 +80,17 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 
 			return true;
 		}
+
+		public override string ToString ()
+		{
+
+			string _eventName = "<color=blue>"+eventName+"</color>";
+			if (string.IsNullOrEmpty(eventName))
+			{
+				_eventName = "<color=red>None</color>";
+			}
+			return string.Format ("PlayMaker Event : {0}", _eventName);
+		}
 	}
 
 }
