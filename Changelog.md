@@ -1,9 +1,14 @@
 #PlayMaker Utils Change log
 
 ###1.1.3
+**Release Date **  
+26/08/2015  
 **New:**  
 - LinkerData introspection system  
-- new PlayMakerUtils tools for Assets( creation and search)
+- new PlayMakerUtils tools for Assets( creation and search)  
+**New:**  
+- PlayMakerFsmTarget PropertyDrawer  
+- StateSynchronizer Component  
 
 
 ###1.1.2
