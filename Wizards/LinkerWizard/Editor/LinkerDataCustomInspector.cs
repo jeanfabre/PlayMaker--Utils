@@ -176,8 +176,8 @@ public class LinkerDataCustomInspector : Editor
 		_target.LinkContentUpdateDone = true;
 	}
 
-	[MenuItem("PlayMaker/Addons/Tools/Create Linker Wizard")]
-	[MenuItem("Assets/Create/PlayMaker/Linker Wizard")]
+	[MenuItem("PlayMaker/Addons/Tools/Create Linker Wizard",false,0)]
+	[MenuItem("Assets/Create/PlayMaker/Linker Wizard",false,0)]
 	public static void CreateAsset ()
 	{
 
