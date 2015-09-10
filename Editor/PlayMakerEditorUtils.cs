@@ -17,7 +17,7 @@ using HutongGames.PlayMakerEditor;
 public class PlayMakerEditorUtils : Editor {
 	
 	
-	[MenuItem ("PlayMaker/Tools/Addons/Export Current Scene",false,100)]
+	[MenuItem ("PlayMaker/Addons/Tools/Export Current Scene",false,100)]
 	public static void ExportCurrentScene()
 	{
 		if (!EditorApplication.SaveCurrentSceneIfUserWantsTo())
@@ -52,13 +52,13 @@ public class PlayMakerEditorUtils : Editor {
 	}
 	
 	
-	[MenuItem ("PlayMaker/Tools/Addons/Export Current Scene", true)]
+	[MenuItem ("PlayMaker/Addons/Tools/Export Current Scene", true)]
 	public static bool CheckExportCurrentScene() {
 	    return !String.IsNullOrEmpty(EditorApplication.currentScene);
 	}
 	
 	
-	[MenuItem ("PlayMaker/Tools/Addons/Select Current Scene Used Custom Actions")]
+	[MenuItem ("PlayMaker/Addons/Tools/Select Current Scene Used Custom Actions")]
 	public static void SelectSceneCustomAction()
 	{
 		UnityEngine.Object[] _list = GetSceneCustomActionDependencies();
