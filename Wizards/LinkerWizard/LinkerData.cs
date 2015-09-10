@@ -16,6 +16,7 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 		public bool debug = true;
 		public bool LinkContentUpdateDone = false;
 		public TextAsset Asset;
+		public string AssetPath;
 
 		public LinkerData self;
 
@@ -57,7 +58,8 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 		{
 			if (instance ==null)
 			{
-				Debug.LogError("LinkerData is missing an instance, please create one first in your assets from the create menu: Assets/Create/PlayMaker/Create Linker Wizard");
+				Debug.LogWarning("LinkerData is missing an instance, please create one first in your assets from the create menu: Assets/Create/PlayMaker/Create Linker Wizard");
+				return;
 			}
 
 			instance.RegisterLinkerEntry(assemblyName,typeName);
@@ -65,6 +67,12 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 
 		public void RegisterLinkerEntry(string assemblyName,string typeName)
 		{
+			if (instance ==null)
+			{
+				Debug.LogWarning("LinkerData is missing an instance, please create one first in your assets from the create menu: Assets/Create/PlayMaker/Create Linker Wizard");
+				return;
+			}
+
 			if (string.IsNullOrEmpty(assemblyName))
 			{
 				Debug.LogError("LinkerEntry missing <color=blue>assemblyName</color>");
