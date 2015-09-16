@@ -17,7 +17,7 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 
 		public bool debug;
 
-		public void SendPlayMakerEvent()
+		protected void SendPlayMakerEvent()
 		{
 
 			if (debug || !Application.isPlaying)
