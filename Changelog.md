@@ -1,5 +1,10 @@
 #PlayMaker Utils Change log
 
+###1.1.5
+**Release Date:**  16/09/2015  
+
+**New:** Event Proxy Creator wizard  
+
 ###1.1.4
 **Release Date:**  10/09/2015  
 

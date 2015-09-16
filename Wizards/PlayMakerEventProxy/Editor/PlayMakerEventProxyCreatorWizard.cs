@@ -62,7 +62,7 @@ namespace HutongGames.PlayMakerEditor
 			GUILayout.Space(15);
 
 			GUILayout.Label("This wizard lets you create a Component with a public method.\n" +
-			                "When this method is called, it will send a PlayMaker event\n" +
+			                "When this method is called, it will send a PlayMaker event.\n" +
 			                "You can define this PlayMaker event in the component Inspector.\n" +
 			                "\nUse this when you expect Unity or third parties to fire messages\n" +
 			                "and you want to catch that message as a PlayMaker Event");
