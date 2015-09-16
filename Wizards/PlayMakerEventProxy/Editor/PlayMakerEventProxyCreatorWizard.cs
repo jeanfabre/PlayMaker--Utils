@@ -287,7 +287,7 @@ namespace HutongGames.PlayMakerEditor
 				
 				_color.a = 0.5f;
 				GUI.color = _color;
-				GUILayout.Label("Create","Button");
+				GUILayout.Label("Fix form before saving","Button");
 				_color.a = 1f;
 				GUI.color =_color;
 			}
@@ -323,7 +323,7 @@ namespace HutongGames.PlayMakerEditor
 		public static PlayMakerEventProxyCreatorWizard Instance;
 
 
-		[MenuItem ( "PlayMaker/Addons/Tools/PlayMaker Event Proxy Wizard")]
+		[MenuItem ( "PlayMaker/Addons/Tools/Event Proxy Wizard")]
 		static public void Init () {
 			
 			// Get existing open window or if none, make a new one:
@@ -338,15 +338,19 @@ namespace HutongGames.PlayMakerEditor
 			Instance = this;
 			
 			InitWindowTitle();
-			position =  new Rect(120,120,400,292);
+			position =  new Rect(120,120,400,370);
 			// initial fixed size
-			minSize = new Vector2(400, 292);
+			minSize = new Vector2(400, 370);
 
 		}
 		
 		public void InitWindowTitle()
 		{
+			#if UNITY_4_3 || UNITY_4_4 || UNITY_4_5 || UNITY_4_5 || UNITY_4_6 || UNITY_5_0
 			title = "Proxy Creator";
+			#else
+			titleContent = new GUIContent("Proxy Creator");
+			#endif
 		}
 		
 		
