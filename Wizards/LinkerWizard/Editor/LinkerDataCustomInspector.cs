@@ -62,18 +62,30 @@ public class LinkerDataCustomInspector : Editor
 			}
 			if (_target.LinkContentUpdateDone)
 			{
-				GUILayout.Label("5: You can now publish and test on device");
-				GUILayout.BeginHorizontal();
-				if (GUILayout.Button("Ping link.xml"))
+
+				if (_target.Asset == null)
 				{
-					EditorGUIUtility.PingObject(_target.Asset);
+					//Debug.Log("loading asset "+_target.AssetPath);
+					_target.Asset = AssetDatabase.LoadAssetAtPath(_target.AssetPath,typeof(TextAsset)) as TextAsset;
 				}
-				if (GUILayout.Button("Select link.xml"))
+
+				if (_target.Asset!=null)
 				{
-					Selection.activeObject = _target.Asset;
-					EditorGUIUtility.PingObject(_target.Asset);
+					GUILayout.Label("5: You can now publish and test on device");
+					GUILayout.BeginHorizontal();
+					if (GUILayout.Button("Ping link.xml"))
+					{
+
+						EditorGUIUtility.PingObject(_target.Asset);
+					}
+					if (GUILayout.Button("Select link.xml"))
+					{
+		
+						Selection.activeObject = _target.Asset;
+						EditorGUIUtility.PingObject(_target.Asset);
+					}
+					GUILayout.EndHorizontal();
 				}
-				GUILayout.EndHorizontal();
 			}
 		}
 
@@ -102,15 +114,15 @@ public class LinkerDataCustomInspector : Editor
 			}
 		}
 	}
-
-
+	
 	public void UpdateLinkerContent(LinkerData _target)
 	{
 		_target.LinkContentUpdateDone = false;
 
 		_target.Asset = PlayMakerEditorUtils.GetAssetByName("link.xml") as TextAsset;
 
-		string _assetPath = Application.dataPath +"/link.xml";
+
+		_target.AssetPath = "Assets/link.xml";
 
 
 		// create xml doc
@@ -119,7 +131,7 @@ public class LinkerDataCustomInspector : Editor
 		XmlNode _rootNode;
 		if (_target.Asset != null)
 		{
-			_assetPath = AssetDatabase.GetAssetPath(_target.Asset);
+			_target.AssetPath = AssetDatabase.GetAssetPath(_target.Asset);
 			_doc.LoadXml(_target.Asset.text);
 			_rootNode = _doc.SelectSingleNode("linker");
 		}else{
@@ -166,18 +178,22 @@ public class LinkerDataCustomInspector : Editor
 			}
 		}
 
-		Debug.Log("Updated and Saving linker xml content to : "+_assetPath);
-		_doc.Save(_assetPath);
+
+		Debug.Log("Updated and Saving linker xml content to : "+_target.AssetPath);
+		_doc.Save(Application.dataPath+ (_target.AssetPath.Substring(6)));
 
 		AssetDatabase.Refresh();
 		EditorUtility.FocusProjectWindow ();
-		_target.Asset = AssetDatabase.LoadAssetAtPath(_assetPath,typeof(TextAsset)) as TextAsset;
+
+		_target.Asset = AssetDatabase.LoadAssetAtPath(_target.AssetPath,typeof(TextAsset)) as TextAsset;
 
 		_target.LinkContentUpdateDone = true;
+
+		GUIUtility.ExitGUI();
 	}
 
-	[MenuItem("PlayMaker/Addons/Tools/Create Linker Wizard")]
-	[MenuItem("Assets/Create/PlayMaker/Linker Wizard")]
+	[MenuItem("PlayMaker/Addons/Tools/Create Linker Wizard",false,0)]
+	[MenuItem("Assets/Create/PlayMaker/Linker Wizard",false,0)]
 	public static void CreateAsset ()
 	{
 
