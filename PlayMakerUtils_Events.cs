@@ -6,6 +6,18 @@ using HutongGames.PlayMaker;
 
 public partial class PlayMakerUtils {
 
+
+	public static void CreateIfNeededGlobalEvent(string globalEventName)
+	{
+		if (!FsmEvent.IsEventGlobal(globalEventName))
+		{
+			// Setup global events
+			FsmEvent _event = new FsmEvent(globalEventName);
+			_event.IsGlobal = true;
+			FsmEvent.AddFsmEvent(_event);
+		}
+	}
+
 	public static void SendEventToGameObject(PlayMakerFSM fromFsm,GameObject target,string fsmEvent,bool includeChildren)
 	{
 		SendEventToGameObject(fromFsm,target,fsmEvent,includeChildren,null);
