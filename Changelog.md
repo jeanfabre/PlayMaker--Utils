@@ -1,5 +1,12 @@
 #PlayMaker Utils Change log
 
+###1.1.6
+**Release Date:** 09/19/2015  
+
+**New:** New function to create global events  
+**Fix:** Added support for PlayMakerEvent propertyDrawer to work within stateMachine context  
+**Improvement:** Better description for auto generated "PlayMaker sent even proxy"  
+  
 ###1.1.5
 **Release Date:**  16/09/2015  
 
