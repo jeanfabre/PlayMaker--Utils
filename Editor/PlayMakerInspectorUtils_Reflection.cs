@@ -10,6 +10,7 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
+#pragma warning disable 168
 namespace HutongGames.PlayMaker.Ecosystem.Utils
 {
 	public partial class PlayMakerInspectorUtils {
@@ -35,11 +36,18 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 			var iterator = serializedObject.GetIterator();
 			while(iterator.NextVisible(true))
 			{
-				T parent = (T)GetParent(iterator);
-				if(parent!=null)
+				try{
+
+					T parent = (T)GetParent(iterator);
+					if(parent!=null)
+					{
+						return parent;
+					}
+				}catch(Exception e)
 				{
-					return parent;
+
 				}
+
 			}
 
 			return default(T);

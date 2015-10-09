@@ -60,7 +60,7 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 				{
 					FsmEventSender = new GameObject("PlayMaker Send Event Proxy").AddComponent<PlayMakerFSM>();
 					FsmEventSender.FsmName = "Send Event Proxy";
-					FsmEventSender.FsmDescription = "This Fsm was created at runtime, because a script is willing to send a PlayMaker event but has not specified the Fsm Sender";
+					FsmEventSender.FsmDescription = "This Fsm was created at runtime, because a script or component is willing to send a PlayMaker event";
 				}
 				fromFsm = FsmEventSender;
 			}

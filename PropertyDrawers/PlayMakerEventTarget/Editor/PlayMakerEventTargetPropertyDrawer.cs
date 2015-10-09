@@ -22,7 +22,8 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 
 		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
 		{
-			
+
+
 			SerializedProperty eventTarget = property.FindPropertyRelative("eventTarget");
 			SerializedProperty gameObject = property.FindPropertyRelative("gameObject");
 	
