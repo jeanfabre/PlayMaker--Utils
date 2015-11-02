@@ -22,6 +22,48 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 
 		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
 		{
+
+
+			SerializedProperty eventTarget = property.FindPropertyRelative("eventTarget");
+			SerializedProperty gameObject = property.FindPropertyRelative("gameObject");
+	
+			CacheOwnerGameObject(property.serializedObject);
+			
+			rowCount = 0;
+			
+			// draw the enum popup Field
+			int oldEnumIndex = eventTarget.enumValueIndex;
+			
+			// force the GameObject value to be the owner when switching to it
+			// this is just to fall back nicely on a preset that is the expected one, as opposed to target nothing
+			if (oldEnumIndex==0 && gameObject.objectReferenceValue!=ownerGameObject)
+			{
+				gameObject.objectReferenceValue = ownerGameObject;
+			}
+
+			rowCount++;
+			
+			// Additional fields
+			if (eventTarget.enumValueIndex==0) // targeting Owner: needs only the include children field
+			{
+				rowCount++;
+			}else if(eventTarget.enumValueIndex==2) // targeting Broadcasting: needs no additional fields
+			{
+				//nothing
+			}else{ // targeting GameObject or FsmComponent
+
+				if (eventTarget.enumValueIndex==1) // GameObject target
+				{
+					rowCount++;
+					rowCount++;
+					
+					
+				}else if (eventTarget.enumValueIndex==3) // FsmComponent target
+				{
+					rowCount++;
+				}
+			}
+
 			return base.GetPropertyHeight(property,label) * rowCount;
 		}
 

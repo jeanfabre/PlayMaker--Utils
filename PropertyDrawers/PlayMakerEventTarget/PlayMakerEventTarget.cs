@@ -45,6 +45,25 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 			this.eventTarget = evenTarget;
 			this.includeChildren = includeChildren;
 		}
+
+		public override string ToString ()
+		{
+
+			string _message = eventTarget.ToString();
+			if (eventTarget== ProxyEventTarget.GameObject) 
+			{
+				_message += " : "+gameObject.name;
+			}
+
+			if (eventTarget == ProxyEventTarget.GameObject || eventTarget == ProxyEventTarget.Owner)
+			{
+				_message += includeChildren?", ":", not ";
+				_message += "including children";
+			}
+
+			return _message;
+
+		}
 	}
 
 }

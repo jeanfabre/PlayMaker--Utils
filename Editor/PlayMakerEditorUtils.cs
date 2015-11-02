@@ -6,6 +6,8 @@ using UnityEditor;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
+
 
 using HutongGames;
 using HutongGames.PlayMaker;
@@ -15,7 +17,7 @@ using HutongGames.PlayMakerEditor;
 public class PlayMakerEditorUtils : Editor {
 	
 	
-	[MenuItem ("PlayMaker/Tools/Addons/Export Current Scene",false,100)]
+	[MenuItem ("PlayMaker/Addons/Tools/Export Current Scene",false,100)]
 	public static void ExportCurrentScene()
 	{
 		if (!EditorApplication.SaveCurrentSceneIfUserWantsTo())
@@ -50,13 +52,13 @@ public class PlayMakerEditorUtils : Editor {
 	}
 	
 	
-	[MenuItem ("PlayMaker/Tools/Addons/Export Current Scene", true)]
+	[MenuItem ("PlayMaker/Addons/Tools/Export Current Scene", true)]
 	public static bool CheckExportCurrentScene() {
 	    return !String.IsNullOrEmpty(EditorApplication.currentScene);
 	}
 	
 	
-	[MenuItem ("PlayMaker/Tools/Addons/Select Current Scene Used Custom Actions")]
+	[MenuItem ("PlayMaker/Addons/Tools/Select Current Scene Used Custom Actions")]
 	public static void SelectSceneCustomAction()
 	{
 		UnityEngine.Object[] _list = GetSceneCustomActionDependencies();
@@ -130,5 +132,114 @@ public class PlayMakerEditorUtils : Editor {
 		
 	}// GetSceneCustomActionDependencies
 	
+	/// <summary>
+	//	This makes it easy to create, name and place unique new ScriptableObject asset files.
+	/// </summary>
+	public static void CreateAsset<T> (string name="") where T : ScriptableObject
+	{
+		T asset = ScriptableObject.CreateInstance<T> ();
+		
+		string path = AssetDatabase.GetAssetPath (Selection.activeObject);
+		if (path == "") 
+		{
+			path = "Assets";
+		} 
+		else if (Path.GetExtension (path) != "") 
+		{
+			path = path.Replace (Path.GetFileName (AssetDatabase.GetAssetPath (Selection.activeObject)), "");
+		}
+
+		string _name = string.IsNullOrEmpty(name)? "New " + typeof(T).ToString() : name ;
+
+		string assetPathAndName = AssetDatabase.GenerateUniqueAssetPath (path + "/" + _name + ".asset");
+		
+		AssetDatabase.CreateAsset (asset, assetPathAndName);
+		
+		AssetDatabase.SaveAssets ();
+		AssetDatabase.Refresh();
+		EditorUtility.FocusProjectWindow ();
+		Selection.activeObject = asset;
+	}
+
+
 	
+	/// <summary>
+	/// Used to get assets of a certain type and file extension from entire project
+	/// </summary>
+	/// <param name="type">The type to retrieve. eg typeof(GameObject).</param>
+	/// <param name="fileExtension">The file extention the type uses eg ".prefab".</param>
+	/// <returns>An Object array of assets.</returns>
+	public static UnityEngine.Object[] GetAssetsOfType(System.Type type, string fileExtension)
+	{
+		List<UnityEngine.Object> tempObjects = new List<UnityEngine.Object>();
+		DirectoryInfo directory = new DirectoryInfo(Application.dataPath);
+		FileInfo[] goFileInfo = directory.GetFiles("*" + fileExtension, SearchOption.AllDirectories);
+		
+		int i = 0; int goFileInfoLength = goFileInfo.Length;
+		FileInfo tempGoFileInfo; string tempFilePath;
+		UnityEngine.Object tempGO;
+		for (; i < goFileInfoLength; i++)
+		{
+			tempGoFileInfo = goFileInfo[i];
+			if (tempGoFileInfo == null)
+				continue;
+			
+			tempFilePath = tempGoFileInfo.FullName;
+			tempFilePath = tempFilePath.Replace(@"\", "/").Replace(Application.dataPath, "Assets");
+			
+			//Debug.Log(tempFilePath + "\n" + Application.dataPath);
+			
+			tempGO = AssetDatabase.LoadAssetAtPath(tempFilePath, typeof(UnityEngine.Object)) as UnityEngine.Object;
+			if (tempGO == null)
+			{
+				//Debug.LogWarning("Skipping Null");
+				continue;
+			}
+			else if (tempGO.GetType() != type)
+			{
+				//Debug.LogWarning("Skipping " + tempGO.GetType().ToString());
+				continue;
+			}
+			
+			tempObjects.Add(tempGO);
+		}
+		
+		
+		
+		
+		return tempObjects.ToArray();
+	}
+	
+	public static UnityEngine.Object GetAssetByName(string fileName)
+	{
+		DirectoryInfo directory = new DirectoryInfo(Application.dataPath);
+		FileInfo[] goFileInfo = directory.GetFiles("*" + fileName, SearchOption.AllDirectories);
+		
+		int i = 0; int goFileInfoLength = goFileInfo.Length;
+		FileInfo tempGoFileInfo; string tempFilePath;
+		UnityEngine.Object tempGO;
+		for (; i < goFileInfoLength; i++)
+		{
+			tempGoFileInfo = goFileInfo[i];
+			if (tempGoFileInfo == null)
+				continue;
+			
+			tempFilePath = tempGoFileInfo.FullName;
+			tempFilePath = tempFilePath.Replace(@"\", "/").Replace(Application.dataPath, "Assets");
+			
+			//	Debug.Log(tempFilePath + "\n" + Application.dataPath);
+			
+			tempGO = AssetDatabase.LoadAssetAtPath(tempFilePath, typeof(UnityEngine.Object)) as UnityEngine.Object;
+			if (tempGO == null)
+			{
+				Debug.LogWarning("Skipping Null");
+				continue;
+			}
+			
+			return tempGO;
+		}
+		
+		return null;
+	}
+
 }
