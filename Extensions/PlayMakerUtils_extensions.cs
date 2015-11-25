@@ -1,5 +1,6 @@
 // (c) Copyright HutongGames, LLC 2010-2015. All rights reserved.
 
+
 using System;
 using System.Collections;
 
@@ -79,6 +80,23 @@ public static class PlayMakerUtils_Extensions
 	}
 	
 	#endregion
-	
+
+	#region Transform
+
+	public static string GetPath(this UnityEngine.Transform current) {
+		if (current.parent == null)
+			return "/" + current.name;
+		return current.parent.GetPath() + "/" + current.name;
+	}
+	#endregion
+
+	#region Component
+
+	public static string GetPath(this UnityEngine.Component component) {
+		return component.transform.GetPath();
+	}
+
+	#endregion
+
 }
 
