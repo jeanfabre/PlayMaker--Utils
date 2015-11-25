@@ -133,7 +133,7 @@ public partial class PlayMakerUtils {
 			case VariableType.Enum:
 				return fromFsm.Variables.GetFsmEnum(_name).Value;
 			case VariableType.Array:
-				return fromFsm.Variables.GetFsmArray(_name).Value;
+				return fromFsm.Variables.GetFsmArray(_name).Values;
 			#endif
 			}
 		}else{
@@ -169,15 +169,49 @@ public partial class PlayMakerUtils {
 			case VariableType.Enum:
 				return fsmVar.EnumValue;
 			case VariableType.Array:
-				return fsmVar.ArrayValue;
+				return fsmVar.arrayValue;
 			#endif
 			}
 		}
 
 		return null;
 	}
-	
-	
+	#if PLAYMAKER_1_8
+	public static bool ApplyValueToFsmVar(Fsm fromFsm,FsmVar fsmVar, object[] value)
+	{
+		if (fromFsm==null)
+		{
+			return false;
+		}
+		if (fsmVar==null)
+		{
+			return false;
+		}
+		FsmArray _target;
+
+		if (value==null || value.Length == 0)
+		{
+			if(fsmVar.Type == VariableType.Array ){
+				_target= fromFsm.Variables.GetFsmArray(fsmVar.variableName);
+				_target.Reset();
+			}
+			return true;
+		}
+
+		if (fsmVar.Type != VariableType.Array)
+		{
+			Debug.LogError("The fsmVar value <"+fsmVar.Type+"> doesn't match the value <FsmArray> on state"+fromFsm.ActiveStateName+" on fsm:"+fromFsm.Name+" on GameObject:"+fromFsm.GameObjectName);
+			return false;
+		}
+
+		_target= fromFsm.Variables.GetFsmArray(fsmVar.variableName);
+		_target.Values = value;
+
+		return true;
+	}
+	#endif
+
+
 	public static bool ApplyValueToFsmVar(Fsm fromFsm,FsmVar fsmVar, object value)
 	{
 		if (fromFsm==null)
@@ -248,10 +282,10 @@ public partial class PlayMakerUtils {
 			#if PLAYMAKER_1_8
 			else if(fsmVar.Type == VariableType.Enum ){
 				FsmEnum _target= fromFsm.Variables.GetFsmEnum(fsmVar.variableName);
-				_target.Value = 0;
+				_target.ResetValue();
 			}else if(fsmVar.Type == VariableType.Array ){
-				FsmArray _target= fromFsm.Variables.GetFsmEnum(fsmVar.variableName);
-				_target.Value = 0;
+				FsmArray _target= fromFsm.Variables.GetFsmArray(fsmVar.variableName);
+				_target.Reset();
 			}
 			#endif
 			return true;
@@ -311,7 +345,7 @@ public partial class PlayMakerUtils {
 			storageType = typeof(System.Enum);
 			break;
 		case VariableType.Array:
-			storageType = typeof(Array);
+			storageType = typeof(System.Array);
 			break;
 		#endif
 		}
@@ -450,10 +484,6 @@ public partial class PlayMakerUtils {
 		}else if(valueType.BaseType == typeof(System.Enum) ){
 			FsmEnum _target= fromFsm.Variables.GetFsmEnum(fsmVar.variableName);
 			_target.Value = (System.Enum)value;
-		}else if(valueType.BaseType == typeof(Array) ){
-			FsmArray _target= fromFsm.Variables.GetFsmArray(fsmVar.variableName);
-			_target.Value = (Array)value;
-
 		#endif
 		}else{
 			Debug.LogWarning("?!?!"+valueType);
