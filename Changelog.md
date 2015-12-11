@@ -1,7 +1,14 @@
 #PlayMaker Utils Change log
 
+###1.2.0 beta
+**Release Date:** 11/12/2015  
+
+**New:** New Component public class with related propertyDrawers for `PlayMakerFsmVariableTarget` and `PlayMakerFsmVariable`  
+**New:** New utils to list variables by string based on a FsmVariables reference   
+**New:**  New Reflections Utils to get the BaseProperty of a SerializedProperty   
+
 ###1.1.6
-**Release Date:** 09/19/2015  
+**Release Date:** 19/09/2015  
 
 **New:** New function to create global events  
 **Fix:** Added support for PlayMakerEvent propertyDrawer to work within stateMachine context  
