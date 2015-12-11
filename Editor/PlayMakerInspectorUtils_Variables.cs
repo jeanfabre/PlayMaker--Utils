@@ -91,7 +91,7 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 
 				if (variableType == VariableType.Unknown)
 				{
-					NamedVariable[] namedVariables = fsmVariables.GetNamedVariables(variableType);// PlayMakerGlobals.Instance.Variables.GetAllNamedVariables();
+					NamedVariable[] namedVariables = fsmVariables.GetAllNamedVariables();// fsmVariables.GetNamedVariables(variableType);// PlayMakerGlobals.Instance.Variables.GetAllNamedVariables();
 					
 					list = new string[namedVariables.Length];
 					
