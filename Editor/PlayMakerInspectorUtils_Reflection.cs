@@ -15,6 +15,30 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 {
 	public partial class PlayMakerInspectorUtils {
 
+		/// <summary>
+		/// Gets the base property. Very Convenient when you want to get the target of a propertyDrawer:
+		/// 
+		/// ColorPaletteReference _target = SerializedPropertyUtils.GetBaseProperty<ColorPaletteReference>(prop);
+		/// 
+		/// </summary>
+		/// <returns>The base property.</returns>
+		/// <param name="prop">Property passed by the propertydrawer or else</param>
+		/// <typeparam name="T">The expected type of the base property</typeparam>
+		public static T GetBaseProperty<T>(SerializedProperty prop)
+		{
+			// Separate the steps it takes to get to this property
+			string[] separatedPaths = prop.propertyPath.Split('.');
+			
+			// Go down to the root of this serialized property
+			System.Object reflectionTarget = prop.serializedObject.targetObject as object;
+			// Walk down the path to get the target object
+			foreach (var path in separatedPaths)
+			{
+				FieldInfo fieldInfo = reflectionTarget.GetType().GetField(path);
+				reflectionTarget = fieldInfo.GetValue(reflectionTarget);
+			}
+			return (T) reflectionTarget;
+		}
 
 		public static GameObject GetGameObject(SerializedObject serializedObject)
 		{
