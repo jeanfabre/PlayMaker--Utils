@@ -1,5 +1,10 @@
 #PlayMaker Utils Change log
 
+###1.2.1 beta
+**Release Date:** 14/12/2015  
+
+**Fix** Unity 5.3 new SceneManagement obsolete calls  
+
 ###1.2.0 beta
 **Release Date:** 11/12/2015  
 

@@ -16,10 +16,11 @@ using HutongGames.PlayMakerEditor;
 
 public class PlayMakerEditorUtils : Editor {
 	
-	
+	#if UNITY_4_6 || UNITY_5_0 || UNITY_5_1 || UNITY_5_2
 	[MenuItem ("PlayMaker/Addons/Tools/Export Current Scene",false,100)]
 	public static void ExportCurrentScene()
 	{
+
 		if (!EditorApplication.SaveCurrentSceneIfUserWantsTo())
 		{
 			return;
@@ -67,6 +68,8 @@ public class PlayMakerEditorUtils : Editor {
 		ArrayUtility.AddRange<UnityEngine.Object>(ref _sel ,_list);
 		Selection.objects = _sel;	
 	}
+
+	#endif
 
 	public static UnityEngine.Object[] GetSceneCustomActionDependencies()
 	{
