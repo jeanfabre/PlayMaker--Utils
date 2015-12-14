@@ -47,18 +47,19 @@ public partial class PlayMakerUtils {
 		
 		FsmEventTarget _eventTarget = new FsmEventTarget();
 		_eventTarget.excludeSelf = false;
+		_eventTarget.sendToChildren = includeChildren;
+
+		_eventTarget.target = FsmEventTarget.EventTarget.GameObject;	
+
 		FsmOwnerDefault owner = new FsmOwnerDefault();
 		owner.OwnerOption = OwnerDefaultOption.SpecifyGameObject;
 		owner.GameObject = new FsmGameObject();
 		owner.GameObject.Value = target;
+
 		_eventTarget.gameObject = owner;
-		_eventTarget.target = FsmEventTarget.EventTarget.GameObject;	
-		
-		_eventTarget.sendToChildren = includeChildren;
-		
+
 		fromFsm.Fsm.Event(_eventTarget,fsmEvent);
-		
-		
+
 	}
 
 	
