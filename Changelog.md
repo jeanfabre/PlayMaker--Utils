@@ -1,5 +1,10 @@
 #PlayMaker Utils Change log
 
+###1.2.2 beta
+**Release Date:** 12/01/2016  
+
+**Fix:** Unity 4.7 compatibility 
+
 ###1.2.1 beta
 **Release Date:** 14/12/2015  
 
