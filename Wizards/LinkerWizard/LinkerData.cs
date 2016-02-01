@@ -10,9 +10,16 @@ using UnityEditor;
 
 namespace HutongGames.PlayMaker.Ecosystem.Utils
 {
-	
+
+
 	public class LinkerData : ScriptableObject
 	{
+
+		static Type[] _unlinkedTyped = new Type[]{
+			typeof(UnityEngine.Collider2D)
+		};
+
+
 		public bool debug = true;
 		public bool LinkContentUpdateDone = false;
 		public TextAsset Asset;
@@ -54,6 +61,33 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 
 		}
 
+		public static void RegisterClassDependancy(Type type,string typeName)
+		{
+
+			if (type == null)
+			{
+				Debug.LogWarning("LinkerData RegisterClassDependancy with no type");
+				return;
+			}
+
+			if (instance ==null)
+			{
+				Debug.LogWarning("LinkerData is missing an instance, please create one first in your assets from the create menu: Assets/Create/PlayMaker/Create Linker Wizard");
+				return;
+			}
+
+			//Check for unlinked dependancy...
+			foreach(Type _type in _unlinkedTyped)
+			{
+				if (type.IsSubclassOf(_type))
+				{
+					instance.RegisterLinkerEntry(_type.Namespace,_type.AssemblyQualifiedName);
+				}
+			}
+
+			instance.RegisterLinkerEntry(type.Assembly.FullName,typeName);
+		}
+
 		public static void RegisterClassDependancy(string assemblyName,string typeName)
 		{
 			if (instance ==null)
@@ -90,6 +124,12 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 				assemblyName = assemblyName.Split(","[0])[0];
 			}
 
+			// clean up typeName
+			if (typeName.Contains(","))
+			{
+				typeName = typeName.Split(","[0])[0];
+			}
+
 			if (!linkerEntries.ContainsKey(assemblyName))
 			{
 				linkerEntries.Add(assemblyName,new List<string>());
@@ -103,48 +143,6 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 			LinkerData._instance_ = this;
 			self = this;
 		}
-
-
-//	#if UNITY_EDITOR
-//
-//		[MenuItem("PlayMaker/Addons/Tools/Create Linker Wizard")]
-//		[MenuItem("Assets/Create/PlayMaker/Linker Wizard")]
-//		public static void CreateAsset ()
-//		{
-//
-//
-//			if (LinkerData.instance!=null)
-//			{
-//				string path = AssetDatabase.GetAssetPath(LinkerData.instance);
-//				if (string.IsNullOrEmpty(path))
-//				{
-//					LinkerData.instance = null;
-//				}else{
-//
-//					Selection.activeObject = LinkerData.instance;
-//					EditorGUIUtility.PingObject(Selection.activeObject);
-//					Debug.Log("Linker Wizard already exists at "+path);
-//					return;
-//				}
-//			}
-//
-//			// search in the assets:
-//		 	UnityEngine.Object[] _assets =	PlayMakerUtils.GetAssetsOfType(typeof(LinkerData),".asset");
-//
-//			if (_assets!=null && _assets.Length>0)
-//			{
-//				LinkerData.instance = _assets[0] as LinkerData;
-//
-//				Selection.activeObject = LinkerData.instance;
-//				EditorGUIUtility.PingObject(Selection.activeObject);
-//				Debug.Log("Linker Wizard already exists at "+AssetDatabase.GetAssetPath(LinkerData.instance));
-//				return;
-//			}
-//
-//			PlayMakerUtils.CreateAsset<LinkerData>("Linker Wizard");
-//		}
-//
-//	#endif
 
 	}
 }

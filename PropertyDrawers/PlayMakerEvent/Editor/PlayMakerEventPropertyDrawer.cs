@@ -12,7 +12,7 @@ using HutongGames.PlayMakerEditor;
 
 namespace HutongGames.PlayMaker.Ecosystem.Utils
 {
-	#pragma warning disable 219, 414
+	#pragma warning disable 219, 414, 168
 	[CustomPropertyDrawer (typeof (PlayMakerEvent))]
 	public class PlayMakerEventDrawer : PlayMakerPropertyDrawerBaseClass 
 	{
@@ -75,7 +75,18 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 			
 			if (eventTargetVariable!=null)
 			{
+				try{
 				eventTarget = eventTargetVariable.FindPropertyRelative("eventTarget");
+				}catch(Exception e)
+				{
+					var _sel = Selection.activeGameObject;
+
+					Selection.activeGameObject = null;
+					AssetDatabase.Refresh();
+					Selection.activeGameObject = _sel;
+
+					return 16f;
+				}
 			}
 
 			string[] _eventList = new string[0];
@@ -162,10 +173,16 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 
 			if (eventTargetVariable!=null)
 			{
+				try{
 				eventTarget = eventTargetVariable.FindPropertyRelative("eventTarget");
 				includeChildren = eventTargetVariable.FindPropertyRelative("includeChildren");
 				gameObject = eventTargetVariable.FindPropertyRelative("gameObject");
 				fsmComponent = eventTargetVariable.FindPropertyRelative("fsmComponent");
+				}catch(Exception e)
+				{
+					Selection.activeGameObject = null;
+					return;
+				}
 			}
 
 			eventName = prop.FindPropertyRelative("eventName");

@@ -1,5 +1,10 @@
 #PlayMaker Utils Change log
 
+###1.2.3 beta
+**Release Date:** 01/02/2016
+
+**Fix**: Linker wizard support for Collider2D inheritance.
+
 ###1.2.2 beta
 **Release Date:** 12/01/2016  
 
