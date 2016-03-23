@@ -1,7 +1,7 @@
 #PlayMaker Utils Change log
 
 ###1.2.4 beta
-**Release Date:** Pending  
+**Release Date:** 23/03/2016  
 
 **Fix**: Prevent error when parsing a null object as string in ParseFsmVarToString()  
 
