@@ -113,6 +113,10 @@ public partial class PlayMakerUtils {
 	
 	public static string ParseValueToString(object item)
 	{
+		if (item == null) {
+			return "";
+		}
+
 		if(item.GetType()==typeof(string))
 		{
 			return "string("+item.ToString()+")";
