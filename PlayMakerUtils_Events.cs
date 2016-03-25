@@ -6,6 +6,11 @@ using HutongGames.PlayMaker;
 
 public partial class PlayMakerUtils {
 
+	/// <summary>
+	/// Self generated Fsm in case developer passes null as a source Fsm to fire an event.
+	/// </summary>
+	public static PlayMakerFSM FsmEventSender;
+
 
 	public static void CreateIfNeededGlobalEvent(string globalEventName)
 	{
@@ -35,6 +40,20 @@ public partial class PlayMakerUtils {
 	
 	public static void SendEventToGameObject(PlayMakerFSM fromFsm,GameObject target,string fsmEvent,bool includeChildren,FsmEventData eventData)
 	{
+
+		if (fromFsm==null)
+		{
+			if (FsmEventSender==null)
+			{
+				FsmEventSender = new GameObject("PlayMaker Send Event Proxy").AddComponent<PlayMakerFSM>();
+				//FsmEventSender.hideFlags = HideFlags.HideAndDontSave; // not too sure if I should hide it or not.. cause we can't define the event sender yet
+				FsmEventSender.FsmName = "Send Event Proxy";
+				FsmEventSender.FsmDescription = "This Fsm was created at runtime, because a script or component is willing to send a PlayMaker event";
+			}
+			fromFsm = FsmEventSender;
+		}
+
+
 		if (eventData!=null)
 		{
 			HutongGames.PlayMaker.Fsm.EventData = eventData;
