@@ -99,7 +99,12 @@ public class PlayMakerEditorUtils : Editor {
 					// Show SendEvent and SendMessage as we find them
 					foreach(FsmStateAction action in fsm.FsmStates[s].Actions)
 					{
-						UnityEngine.Object _asset = FsmEditorUtility.GetActionScriptAsset(action);
+						#if PLAYMAKER_1_8_OR_NEWER
+							UnityEngine.Object _asset = ActionScripts.GetAsset(action);
+						#else
+							UnityEngine.Object _asset = FsmEditorUtility.GetActionScriptAsset(action);
+						#endif
+						
 						string _name = action.Name;
 						if (String.IsNullOrEmpty(_name))
 						{
@@ -108,7 +113,13 @@ public class PlayMakerEditorUtils : Editor {
 								_name = _asset.name;
 							}else
 							{
-								_name = FsmEditorUtility.GetActionLabel(action) + "[WARNING: FILE NOT FOUND]";
+
+								#if PLAYMAKER_1_8_OR_NEWER
+									_name = Labels.GetActionLabel(action) + "[WARNING: FILE NOT FOUND]";
+								#else
+									_name = FsmEditorUtility.GetActionLabel(action) + "[WARNING: FILE NOT FOUND]";
+								#endif
+
 							}
 							
 						}

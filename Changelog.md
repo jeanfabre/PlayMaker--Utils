@@ -1,5 +1,11 @@
 #PlayMaker Utils Change log
 
+
+###1.2.5
+**Release Date:** 22/06/2016  
+
+**Fix**: PlayMaker 1.8 support
+
 ###1.2.4 beta
 **Release Date:** 23/03/2016  
 
