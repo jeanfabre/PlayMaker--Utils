@@ -1,5 +1,9 @@
 #PlayMaker Utils Change log
 
+###1.2.6
+**Release Date:** 17/08/2016  
+
+**new**: added PlayMakerInspectorUtils.SetActionEditorVariableSelectionContext() to properly set context when using VariableEditor.FsmXXXField(). This is for PlayMaker 1.8+ only  
 
 ###1.2.5
 **Release Date:** 22/06/2016  
