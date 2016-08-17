@@ -3,6 +3,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 
 using UnityEditor;
 using UnityEngine;
@@ -13,6 +14,29 @@ using HutongGames.PlayMakerEditor;
 namespace HutongGames.PlayMaker.Ecosystem.Utils
 {
 	public partial class PlayMakerInspectorUtils {
+
+		static FieldInfo _editingObject_Field;
+		static FieldInfo _editingField_Field;
+
+		/// <summary>
+		/// set context for object and fieldinfo before using VariableEditor.FsmXXXField(), else dropdown will error out.
+		/// </summary>
+		public static void SetActionEditorVariableSelectionContext(object target,FieldInfo fieldInfo)
+		{
+			if (_editingObject_Field==null)
+			{
+			 _editingObject_Field = typeof(ActionEditor).GetField("editingObject", 
+			                                                         BindingFlags.Static | 
+			                                                         BindingFlags.NonPublic);
+			}
+			_editingObject_Field.SetValue(null, target);
+			
+			var _editingField_Field = typeof(ActionEditor).GetField("editingField", 
+			                                                        BindingFlags.Static | 
+			                                                        BindingFlags.NonPublic);
+			_editingField_Field.SetValue(null, fieldInfo);
+
+		}
 
 		/// <summary>
 		/// Display an _selectionIndex the fsm variable from a list of variables ( from an fsm likely).
