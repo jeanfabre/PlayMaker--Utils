@@ -1,5 +1,10 @@
 #PlayMaker Utils Change log
 
+###1.2.7
+**Release Date:** 30/08/2016  
+
+**new**: added `TransformEventsBridge.cs` to forward `OnTransformParentChanged()` and `OnTransformChildrenChanged()` as PlayMaker Events.
+
 ###1.2.6
 **Release Date:** 17/08/2016  
 
