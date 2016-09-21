@@ -1,4 +1,9 @@
-﻿using System;
+﻿#if (UNITY_4_3 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7 || UNITY_5_0 || UNITY_5_1 || UNITY_5_2 || UNITY_5_3|| UNITY_5_4) 
+#define UNITY_PRE_5_4
+#endif
+
+
+using System;
 using System.Collections;
 using System.Collections.Generic;
 
@@ -17,6 +22,9 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 
 		static Type[] _unlinkedTyped = new Type[]{
 			typeof(UnityEngine.Collider2D)
+			#if UNITY_PRE_5_4
+			,typeof(UnityEngine.ParticleEmitter)
+			#endif
 		};
 
 
@@ -79,8 +87,10 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 			//Check for unlinked dependancy...
 			foreach(Type _type in _unlinkedTyped)
 			{
+
 				if (type.IsSubclassOf(_type))
 				{
+					Debug.Log("Found subclass of "+_type);
 					instance.RegisterLinkerEntry(_type.Namespace,_type.AssemblyQualifiedName);
 				}
 			}
@@ -88,6 +98,7 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 			instance.RegisterLinkerEntry(type.Assembly.FullName,typeName);
 		}
 
+		/* removed because we need to check for subclass types
 		public static void RegisterClassDependancy(string assemblyName,string typeName)
 		{
 			if (instance ==null)
@@ -98,6 +109,7 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 
 			instance.RegisterLinkerEntry(assemblyName,typeName);
 		}
+*/
 
 		public void RegisterLinkerEntry(string assemblyName,string typeName)
 		{
