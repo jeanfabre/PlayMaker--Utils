@@ -28,7 +28,7 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 		};
 
 
-		public bool debug = true;
+		public bool debug = false;
 		public bool LinkContentUpdateDone = false;
 		public TextAsset Asset;
 		public string AssetPath;
@@ -42,6 +42,10 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 		static public bool DebugAll
 		{
 			get{
+
+				// don't spam if published
+				if (!Application.isEditor && Application.isPlaying) return false;
+
 				if (instance==null)
 				{
 					return true;

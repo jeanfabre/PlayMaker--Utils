@@ -1,0 +1,65 @@
+SetProperty:
+
+#if UNITY_EDITOR
+using HutongGames.PlayMaker.Ecosystem.Utils;
+#endif
+
+#if UNITY_EDITOR
+		public bool debug;
+		#endif
+		
+
+public override void OnEnter()
+		{
+			targetProperty.SetValue();
+
+			#if UNITY_EDITOR
+			if (debug || LinkerData.DebugAll)
+			{
+				
+				UnityEngine.Debug.Log("<Color=blue>SetProperty</Color> on "+this.Fsm.GameObjectName+":"+this.Fsm.Name+"\n" +
+				                      "<Color=red>TargetType</Color>\t\t"+ targetProperty.TargetTypeName+"\n" +
+				                      "<Color=red>Assembly</Color>\t\t"+targetProperty.TargetType.Assembly.FullName+"\n" +
+				                      "<Color=red>Property</Color>\t\t\t"+targetProperty.PropertyName+" <"+ targetProperty.PropertyType+">\n" );
+				
+				LinkerData.RegisterClassDependancy(targetProperty.TargetType,targetProperty.TargetTypeName);
+			}
+			#endif
+
+
+			if (!everyFrame)
+			{
+				Finish();
+			}
+		}
+		
+GetProperty
+		
+			#if UNITY_EDITOR
+			if (debug || LinkerData.DebugAll )
+			{
+				
+				UnityEngine.Debug.Log("<Color=blue>GetProperty</Color> on "+this.Fsm.GameObjectName+":"+this.Fsm.Name+"\n" +
+				                      "<Color=red>TargetType</Color>\t\t"+ targetProperty.TargetTypeName+"\n" +
+				                      "<Color=red>Assembly</Color>\t\t"+targetProperty.TargetType.Assembly.FullName+"\n" +
+				                      "<Color=red>Property</Color>\t\t\t"+targetProperty.PropertyName+" <"+ targetProperty.PropertyType+">\n" );
+				
+				LinkerData.RegisterClassDependancy(targetProperty.TargetType,targetProperty.TargetTypeName);
+			}
+			#endif
+			
+
+invokeMethod:
+
+			#if UNITY_EDITOR
+			if (debug || LinkerData.DebugAll)
+			{
+				
+				UnityEngine.Debug.Log("<Color=blue>InvokeMethod</Color> on "+this.Fsm.GameObjectName+":"+this.Fsm.Name+"\n" +
+				                      "<Color=red>TargetType</Color>\t\t"+ component.GetType()+"\n" +
+				                      "<Color=red>Assembly</Color>\t\t"+component.GetType().Assembly.FullName+"\n" +
+				                      "<Color=red>Method</Color>\t\t\t"+methodName.Value+"\n" );
+				
+				LinkerData.RegisterClassDependancy(component.GetType(),component.GetType().ToString());
+			}
+			#endif
