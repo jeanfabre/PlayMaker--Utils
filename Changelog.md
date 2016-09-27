@@ -1,5 +1,11 @@
 #PlayMaker Utils Change log
 
+
+###1.2.9
+**Release Date:** 27(09/2016  
+
+**new**: Conditional Expression addition ( manual for now)  
+
 ###1.2.8
 **Release Date:** 21/09/2016  
 
