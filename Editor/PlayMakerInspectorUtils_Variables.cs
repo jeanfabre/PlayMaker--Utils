@@ -38,6 +38,33 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 
 		}
 
+
+		/// <summary>
+		/// set context for object and fieldinfo before using VariableEditor.FsmXXXField(), else dropdown will error out.
+		/// </summary>
+		public static void SetActionEditorArrayVariableSelectionContext(object target,int index,FieldInfo fieldInfo)
+		{
+			if (_editingObject_Field==null)
+			{
+				_editingObject_Field = typeof(ActionEditor).GetField("editingObject", 
+				                                                     BindingFlags.Static | 
+				                                                     BindingFlags.NonPublic);
+			}
+			_editingObject_Field.SetValue(null, target);
+			
+			var _editingField_Field = typeof(ActionEditor).GetField("editingField", 
+			                                                        BindingFlags.Static | 
+			                                                        BindingFlags.NonPublic);
+			_editingField_Field.SetValue(null, fieldInfo);
+
+			var _editingIndex_Field = typeof(ActionEditor).GetField("editingIndex", 
+			                                                        BindingFlags.Static | 
+			                                                        BindingFlags.NonPublic);
+			_editingIndex_Field.SetValue(null, index);
+			
+		}
+
+
 		/// <summary>
 		/// Display an _selectionIndex the fsm variable from a list of variables ( from an fsm likely).
 		/// This is to paliate for the PlayMaker 1.8 that deprecated the api call VariableEditor.FsmVarPopup()
