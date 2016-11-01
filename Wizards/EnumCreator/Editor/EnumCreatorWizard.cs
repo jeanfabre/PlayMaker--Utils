@@ -9,8 +9,6 @@ using System.Reflection;
 using UnityEditor;
 using UnityEngine;
 
-using HutongGames.PlayMakerEditorUtils;
-
 using Rotorz.ReorderableList;
 
 namespace HutongGames.PlayMakerEditor.Ecosystem.Utils
@@ -37,12 +35,26 @@ namespace HutongGames.PlayMakerEditor.Ecosystem.Utils
 			currentEnumFileDetails = null;
 			currentEnum = new EnumCreator.EnumDefinition();
 
+			if (_list==null)
+			{
+				return;
+			}
+			if (currentEnum==null)
+			{
+				return;
+			}
+
+			currentEnum.UpdateFilePath();
+			
+			string currentFilePath = currentEnum.filePath;
+
 		}
+
 		void StartEditingExistingEnum(EnumFileDetails enumDetails)
 		{
 
-			Debug.Log("startEditing: "+enumDetails.enumName);
-			Debug.Log(enumDetails);
+			//Debug.Log("startEditing: "+enumDetails.enumName);
+			//Debug.Log(enumDetails);
 
 			_sourceDetails = enumDetails;
 
@@ -55,8 +67,6 @@ namespace HutongGames.PlayMakerEditor.Ecosystem.Utils
 			currentEnum.Name = enumDetails.enumName;
 
 			Type _type = System.Type.GetType(currentEnum.NameSpace+"."+currentEnum.Name+", Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null");
-		
-
 
 			currentEnum.entries = new List<string>();
 
@@ -223,7 +233,7 @@ namespace HutongGames.PlayMakerEditor.Ecosystem.Utils
 				Selection.activeInstanceID = _object.GetInstanceID();
 			}
 
-			if (currentEnumFileDetails==details)
+			if (currentEnumFileDetails==details )
 			{
 				Color _prev = GUI.color;
 				GUI.color = Color.green;
@@ -448,6 +458,7 @@ namespace HutongGames.PlayMakerEditor.Ecosystem.Utils
 				if (_item.Key==currentFilePath)
 				{
 					currentEnumFileDetails = _item.Value;
+					StartEditingExistingEnum(currentEnumFileDetails);
 					return;
 				}
 			}

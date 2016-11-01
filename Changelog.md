@@ -1,5 +1,10 @@
 #PlayMaker Utils Change log
 
+###1.3
+**Release Date:** n/a 
+
+**new**: Enum Creator Wizard  
+**new**: Rotorz ReOrderable List Library included 
 
 ###1.2.9
 **Release Date:** 27/09/2016  

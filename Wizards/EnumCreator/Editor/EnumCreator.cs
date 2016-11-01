@@ -20,7 +20,6 @@ namespace HutongGames.PlayMakerEditor.Ecosystem.Utils
 	// TODO: fix folder path validation
 	// TODO: fix enum indexing to allow for proper editing
 	// TODO: warn about reordering ( with a check box maybe)
-	// TODO: fix init where last editied enum doesn't refresh interface properly
 
 	public class EnumCreator {
 	
@@ -287,7 +286,7 @@ namespace HutongGames.PlayMakerEditor.Ecosystem.Utils
 		static string Template_Header = @"// (c) Copyright HutongGames, LLC 2010-[YEAR]. All rights reserved.
 // THIS CONTENT IS AUTOMATICALLY GENERATED.
 // [TAG]
-// It is recommanded to use PlayMaker Enum Creator Wizard to edit this enum definition. But you can perfectly edit this script directly";
+// It is recommended to use PlayMaker Enum Creator Wizard to edit this enum definition. But you can perfectly edit this script directly";
 
 		static string Template_EnumStructure = @"namespace [NAMESPACE]
 {
@@ -338,7 +337,7 @@ namespace HutongGames.PlayMakerEditor.Ecosystem.Utils
 				_entriesLiteral += string.Format(Template_EnumEntry,enumDefinition.entries[i],"");
 				if (i+1<enumDefinition.entries.Count)
 				{
-					_entriesLiteral += ",\r\n";
+					_entriesLiteral += ",\n";
 				}
 				
 			}
