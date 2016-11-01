@@ -207,8 +207,8 @@ public class LinkerDataCustomInspector : Editor
 		GUIUtility.ExitGUI();
 	}
 	
-	[MenuItem("PlayMaker/Addons/Tools/Create Linker Wizard",false,0)]
-	[MenuItem("Assets/Create/PlayMaker/Linker Wizard",false,0)]
+	[MenuItem("PlayMaker/Addons/Tools/Create Linker Wizard")]
+	[MenuItem("Assets/Create/PlayMaker/Linker Wizard")]
 	public static void CreateAsset ()
 	{
 		
