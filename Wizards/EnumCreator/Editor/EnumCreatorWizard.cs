@@ -46,7 +46,7 @@ namespace HutongGames.PlayMakerEditor.Ecosystem.Utils
 
 			currentEnum.UpdateFilePath();
 			
-			string currentFilePath = currentEnum.filePath;
+		//	string currentFilePath = currentEnum.filePath;
 
 		}
 
@@ -493,7 +493,11 @@ namespace HutongGames.PlayMakerEditor.Ecosystem.Utils
 		
 		public void InitWindowTitle()
 		{
-			title = "Enum Creator";
+			#if UNITY_4_3 || UNITY_4_4 || UNITY_4_5 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7 || UNITY_5_0
+			title = "Proxy Creator";
+			#else
+			titleContent = new GUIContent("Enum Creator");
+			#endif
 		}
 
 
