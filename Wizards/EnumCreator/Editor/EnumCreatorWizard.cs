@@ -32,6 +32,8 @@ namespace HutongGames.PlayMakerEditor.Ecosystem.Utils
 
 		void StartEditingNewEnum()
 		{
+			Debug.Log("start New Enum: ");
+			allowReordering = true;
 			currentEnumFileDetails = null;
 			currentEnum = new EnumCreator.EnumDefinition();
 
@@ -52,7 +54,7 @@ namespace HutongGames.PlayMakerEditor.Ecosystem.Utils
 
 		void StartEditingExistingEnum(EnumFileDetails enumDetails)
 		{
-
+			allowReordering = false;
 			//Debug.Log("startEditing: "+enumDetails.enumName);
 			//Debug.Log(enumDetails);
 
@@ -255,14 +257,31 @@ namespace HutongGames.PlayMakerEditor.Ecosystem.Utils
 		Vector2 sourcePreviewScrollPos;
 		Vector2 enumEntriesScrollPos;
 
+		bool allowReordering = false;
+
 		void OnGUI_DoEnumDefinitionForm()
 		{
+			if (EditorApplication.isCompiling)
+			{	Color _prev = GUI.color;
+				GUI.color = Color.green;
+				GUILayout.Box("Unity is compiling, please wait");
+				GUI.color = _prev;
+			}
+
+			GUI.enabled = !EditorApplication.isCompiling;
+
+
 			Color _orig = Color.clear;
 			ReBuildPreview = false;
 
 			if (currentEnumFileDetails!=null)
 			{
-				GUILayout.Label("You are editing an existing enum");
+				Color _prev = GUI.color;
+				GUI.color = Color.yellow;
+				GUILayout.Box("You are editing an existing enum");
+				GUI.color = _prev;
+
+
 				FsmEditorGUILayout.Divider();
 			}
 
@@ -308,12 +327,34 @@ namespace HutongGames.PlayMakerEditor.Ecosystem.Utils
 
 			// ENTRIES
 
-			enumEntriesScrollPos= GUILayout.BeginScrollView(enumEntriesScrollPos);
+				enumEntriesScrollPos= GUILayout.BeginScrollView(enumEntriesScrollPos);
 				int count = currentEnum.entries.Count;
+
+				
 
 				List<string> _origEntries = new List<string>(currentEnum.entries);
 				ReorderableListGUI.Title("Enum Entries:  <color=#B20000><b>"+currentEnum.EntriesValidation.message+"</b></color>");
-				ReorderableListGUI.ListField(currentEnum.entries,DrawListItem);
+
+
+				if (!allowReordering)
+				{
+					ReorderableListGUI.ListField(currentEnum.entries,DrawListItem,ReorderableListFlags.DisableReordering);
+				}else{
+					ReorderableListGUI.ListField(currentEnum.entries,DrawListItem);
+				}
+				GUILayout.BeginHorizontal();
+				GUILayout.FlexibleSpace();
+				allowReordering = GUILayout.Toggle(allowReordering,"Enable Reordering");
+				GUILayout.EndHorizontal();
+
+			if (allowReordering && currentEnumFileDetails!=null)
+			{
+				GUILayout.BeginHorizontal();
+				GUILayout.FlexibleSpace();
+				GUILayout.Label("Reordering values can break existing reference");
+				GUILayout.EndHorizontal();
+			}
+
 
 				if (currentEnum.entries.Count != count || _origEntries != currentEnum.entries)
 				{
@@ -334,9 +375,11 @@ namespace HutongGames.PlayMakerEditor.Ecosystem.Utils
 			//}
 			GUILayout.BeginHorizontal();
 
-			if (GUILayout.Button("Clear"))
+
+			if (GUILayout.Button("Start New"))
 			{
 				StartEditingNewEnum();
+				currentEnum.Name = ""; // force the user to pick a name
 			}
 
 			if ( currentEnumFileDetails!=null)
@@ -350,7 +393,9 @@ namespace HutongGames.PlayMakerEditor.Ecosystem.Utils
 
 			if (currentEnum.DefinitionValidation.success)
 			{
-				if (GUILayout.Button("Create")) // Label "Save Changes" when we detected that we are editing an existing enum
+			//	MatchFormWithExistingEnum();
+
+				if (GUILayout.Button("Save")) // Label "Save Changes" when we detected that we are editing an existing enum
 				{
 					enumCreator.CreateEnum(currentEnum);
 				}
@@ -360,7 +405,7 @@ namespace HutongGames.PlayMakerEditor.Ecosystem.Utils
 
 				_color.a = 0.5f;
 				GUI.color = _color;
-				GUILayout.Label("Create","Button");
+				GUILayout.Label("Save","Button");
 				_color.a = 1f;
 				GUI.color =_color;
 			}
@@ -518,7 +563,9 @@ namespace HutongGames.PlayMakerEditor.Ecosystem.Utils
 			if ( ReBuildPreview || string.IsNullOrEmpty(currentEnum.ScriptLiteral) )   
 			{
 				currentEnum.ValidateDefinition();
-				
+
+				MatchFormWithExistingEnum();
+
 				enumCreator.BuildScriptLiteral(currentEnum);
 				Repaint();
 			}

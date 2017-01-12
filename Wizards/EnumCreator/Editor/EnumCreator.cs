@@ -15,11 +15,9 @@ using System.Linq;
 
 namespace HutongGames.PlayMakerEditor.Ecosystem.Utils
 {
-
-	// TODO: on clear check if default exists already
+	
 	// TODO: fix folder path validation
 	// TODO: fix enum indexing to allow for proper editing
-	// TODO: warn about reordering ( with a check box maybe)
 
 	public class EnumCreator {
 	
@@ -48,7 +46,7 @@ namespace HutongGames.PlayMakerEditor.Ecosystem.Utils
 			/// <summary>
 			/// The name space.
 			/// </summary>
-			public string NameSpace = "Net.FabreJean";
+			public string NameSpace = "Com.MyGame";
 
 			/// <summary>
 			/// The name.
@@ -58,7 +56,7 @@ namespace HutongGames.PlayMakerEditor.Ecosystem.Utils
 			/// <summary>
 			/// The folder path.
 			/// </summary>
-			public string FolderPath = "PlayMaker Custom Scripts/";
+			public string FolderPath = "PlayMaker Custom Scripts/My Game/";
 
 			/// <summary>
 			/// The enum entries.
