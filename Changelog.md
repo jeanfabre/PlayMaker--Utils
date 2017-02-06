@@ -1,7 +1,15 @@
 #PlayMaker Utils Change log
 
+
+###1.3.1
+**Release Date:** 06/02/2017
+
+**Fix**: `Required` Attribute definition now properly namespaced in `HutongGames.PlayMaker.Ecosystem.Utils`
+
+**Fix**: Enum Creator wizard title  
+
 ###1.3
-**Release Date:** n/a
+**Release Date:** 12/01/2017
 
 **new**: Enum Creator Wizard  
 **new**: Rotorz ReOrderable List Library included 

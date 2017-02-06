@@ -539,7 +539,7 @@ namespace HutongGames.PlayMakerEditor.Ecosystem.Utils
 		public void InitWindowTitle()
 		{
 			#if UNITY_4_3 || UNITY_4_4 || UNITY_4_5 || UNITY_4_5 || UNITY_4_6 || UNITY_4_7 || UNITY_5_0
-			title = "Proxy Creator";
+			title = "Enum Creator";
 			#else
 			titleContent = new GUIContent("Enum Creator");
 			#endif
