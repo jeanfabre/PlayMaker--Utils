@@ -481,7 +481,7 @@ public partial class PlayMakerUtils {
 			_target.Value = (Vector3)value;
 
 		#if PLAYMAKER_1_8
-		}else if(valueType.BaseType == typeof(System.Enum) ){
+		}else if(value is System.Enum){ // valueType.BaseType == typeof(System.Enum)
 			FsmEnum _target= fromFsm.Variables.GetFsmEnum(fsmVar.variableName);
 			_target.Value = (System.Enum)value;
 		#endif

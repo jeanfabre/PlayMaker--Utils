@@ -123,18 +123,30 @@ public partial class PlayMakerUtils {
 		return false;
 	}
 	
-	public static bool DoesGameObjectImplementsEvent(GameObject go, string fsmEvent)
+	public static bool DoesGameObjectImplementsEvent(GameObject go, string fsmEvent,bool includeChildren = false)
 	{
 		if (go==null || string.IsNullOrEmpty(fsmEvent))
 		{
 			return false;
 		}
-		
-		foreach(PlayMakerFSM _fsm in go.GetComponents<PlayMakerFSM>())
+
+		if (includeChildren)
 		{
-			if (DoesFsmImplementsEvent(_fsm,fsmEvent))
+			foreach(PlayMakerFSM _fsm in go.GetComponentsInChildren<PlayMakerFSM>())
 			{
-				return true;
+				if (DoesFsmImplementsEvent(_fsm,fsmEvent))
+				{
+					return true;
+				}
+			}
+		}else{
+
+			foreach(PlayMakerFSM _fsm in go.GetComponents<PlayMakerFSM>())
+			{
+				if (DoesFsmImplementsEvent(_fsm,fsmEvent))
+				{
+					return true;
+				}
 			}
 		}
 		return false;

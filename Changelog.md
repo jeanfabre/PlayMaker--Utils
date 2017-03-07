@@ -1,5 +1,11 @@
 #PlayMaker Utils Change log
 
+###1.3.2
+**Release Date:** n/a
+
+**Fix**: Windows Publishing with a better code to check if type is enum  
+
+**new**: Improved `DoesGameObjectImplementsEvent()` to account for `SendToChildren` Option
 
 ###1.3.1
 **Release Date:** 06/02/2017
