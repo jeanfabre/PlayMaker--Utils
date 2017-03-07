@@ -1,7 +1,7 @@
 #PlayMaker Utils Change log
 
 ###1.3.2
-**Release Date:** n/a
+**Release Date:** 07/03/2017
 
 **Fix**: Windows Publishing with a better code to check if type is enum  
 
