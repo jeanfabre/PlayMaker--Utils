@@ -20,6 +20,11 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 		public OwnerSelectionOptions selection;
 		public GameObject gameObject;
 
+		public Component component;
+		public string expectedComponentType;
+
+		public Owner(){}
+
 	}
 
 }

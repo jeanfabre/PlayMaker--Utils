@@ -37,6 +37,16 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 		/// </summary>
 		public string defaultEventName;
 
+		/// <summary>
+		/// true is no event was selected.
+		/// </summary>
+		/// <value><c>true</c> if no event selected; otherwise, <c>false</c>.</value>
+		public bool isNone {
+			get {
+				return string.IsNullOrEmpty (eventName);
+			}
+		}
+
 
 		public PlayMakerEvent(){}
 
@@ -79,7 +89,7 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 		{
 
 			string _eventName = "<color=blue>"+eventName+"</color>";
-			if (string.IsNullOrEmpty(eventName))
+			if (this.isNone)
 			{
 				_eventName = "<color=red>None</color>";
 			}

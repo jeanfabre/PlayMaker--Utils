@@ -22,6 +22,7 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 		/// </summary>
 		bool attributeScanned;
 
+
 		/// <summary>
 		/// Use the attribute "EventTargetVariable" to point to that variable
 		/// </summary>
@@ -47,6 +48,7 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 		/// The row count. Computed and set by inheriting class
 		/// </summary>
 		int rowCount;
+
 		
 		public override float GetPropertyHeight (SerializedProperty property, GUIContent label)
 		{
@@ -66,6 +68,20 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 				}
 
 			}
+
+			if (eventTargetVariable!=null)
+			{
+				try{
+					eventTarget = eventTargetVariable.FindPropertyRelative("eventTarget");
+					includeChildren = eventTargetVariable.FindPropertyRelative("includeChildren");
+					gameObject = eventTargetVariable.FindPropertyRelative("gameObject");
+					fsmComponent = eventTargetVariable.FindPropertyRelative("fsmComponent");
+				}catch(Exception e)
+				{
+					
+				}
+			}
+
 
 			CacheOwnerGameObject(property.serializedObject);
 
@@ -103,10 +119,11 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 			}else if (eventTarget.enumValueIndex==0 || eventTarget.enumValueIndex==1) // Owner || GameObject
 			{
 				_eventList = PlayMakerInspectorUtils.GetGlobalEvents(true);
-				if (gameObject!=null)
+				if (gameObject != null)
 				{
-					isEventImplemented = PlayMakerInspectorUtils.DoesTargetImplementsEvent((GameObject)gameObject.objectReferenceValue,_eventName,true);
+					isEventImplemented = PlayMakerInspectorUtils.DoesTargetImplementsEvent ((GameObject)gameObject.objectReferenceValue, _eventName, true);
 				}
+
 				
 			}else if (eventTarget.enumValueIndex ==3 ) // FsmComponent
 			{
@@ -115,7 +132,6 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 				
 				isEventImplemented =  PlayMakerInspectorUtils.DoesTargetImplementsEvent(_fsm,_eventName);
 			}
-
 
 			int selected = 0;
 			if (! string.IsNullOrEmpty(_eventName))
@@ -130,17 +146,19 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 			{
 				rowCount++;
 			}
-
+				
 			if (eventTarget!=null)
 			{
-			if(selected!=0 && eventTarget.enumValueIndex!=2) // not none and not broadcasting
-			{
-				if (selected>0 && !isEventImplemented)
+				if(selected!=0 && eventTarget.enumValueIndex!=2) // not none and not broadcasting
 				{
-					rowCount++;
+					if (selected>0 && !isEventImplemented)
+					{
+						rowCount++;
+					}
 				}
 			}
-			}
+		
+
 
 			return base.GetPropertyHeight(property,label) * (rowCount);
 		}
