@@ -1,5 +1,16 @@
 #PlayMaker Utils Change log
 
+###1.4
+**Release Date:** 01/06/2017
+
+**new**: PlayMakerUtilsDefine class to feature PLAYMAKER\_UTILS and PLAYMAKER\_UTILS\_1\_4\_OR\_NEWER  
+
+**new**: MainCamerTarget Public Class with property drawer like the owner class for proxy component creation  
+
+**Fix**: owner public class and property drawer to work as expected
+
+**Fix**: `SetEventProperties.Properties` is now declared by default to always be there  
+
 ###1.3.2
 **Release Date:** 07/03/2017
 

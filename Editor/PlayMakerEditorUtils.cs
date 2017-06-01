@@ -7,7 +7,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
-
+using System.Linq;
 
 using HutongGames;
 using HutongGames.PlayMaker;
@@ -254,6 +254,39 @@ public class PlayMakerEditorUtils : Editor {
 		}
 		
 		return null;
+	}
+
+
+	public static void MountScriptingDefineSymbolToAllTargets(string defineSymbol)
+	{
+		foreach (BuildTargetGroup _group in Enum.GetValues(typeof(BuildTargetGroup)))
+		{
+			if (_group == BuildTargetGroup.Unknown) continue;
+
+			List<string> _defineSymbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(_group).Split(';').Select(d => d.Trim()).ToList();
+
+			if (!_defineSymbols.Contains(defineSymbol))
+			{
+				_defineSymbols.Add(defineSymbol);
+				PlayerSettings.SetScriptingDefineSymbolsForGroup(_group, string.Join(";", _defineSymbols.ToArray()));
+			}
+		}
+	}
+
+	public static void UnMountScriptingDefineSymbolToAllTargets(string defineSymbol)
+	{
+		foreach (BuildTargetGroup _group in Enum.GetValues(typeof(BuildTargetGroup)))
+		{
+			if (_group == BuildTargetGroup.Unknown) continue;
+
+			List<string> _defineSymbols = PlayerSettings.GetScriptingDefineSymbolsForGroup(_group).Split(';').Select(d => d.Trim()).ToList();
+
+			if (_defineSymbols.Contains(defineSymbol))
+			{
+				_defineSymbols.Remove(defineSymbol);
+				PlayerSettings.SetScriptingDefineSymbolsForGroup(_group, string.Join(";", _defineSymbols.ToArray()));
+			}
+		}
 	}
 
 }

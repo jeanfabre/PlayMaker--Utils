@@ -6,8 +6,8 @@ using UnityEditor;
 
 namespace HutongGames.PlayMaker.Ecosystem.Utils
 {
-	[CustomPropertyDrawer(typeof(Owner))]
-	public class OwnerDrawer : PlayMakerPropertyDrawerBaseClass 
+	[CustomPropertyDrawer(typeof(MainCameraTarget))]
+	public class MainCameraTargetPropertyDrawer : PlayMakerPropertyDrawerBaseClass 
 	{
 
 		SerializedProperty selection;
@@ -31,7 +31,7 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 		{
 			
 
-			gameObject = prop.FindPropertyRelative("gameObject");
+			gameObject = prop.FindPropertyRelative("_gameObject");
 			expectedComponentType = prop.FindPropertyRelative("expectedComponentType");
 
 			rowCount = 1;
@@ -48,7 +48,6 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 					expectedType = (_expectComponentsAtts[0] as ExpectComponent).expectedComponentType;
 
 				}
-
 			}
 		
 
@@ -56,7 +55,7 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 
 		
 			selection = prop.FindPropertyRelative("selection");
-			if (selection.enumValueIndex == 1)
+			if (selection.enumValueIndex == 2)
 			{
 				rowCount ++;
 			}
@@ -68,7 +67,7 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 			}
 
 
-			if (selection.enumValueIndex == 1)
+			if (selection.enumValueIndex == 2) // Selection
 			{
 				if (gameObject.objectReferenceValue != null)
 				{
@@ -80,9 +79,15 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 					}
 
 				}
-			} else
+			} else if (selection.enumValueIndex == 1) // owner
 			{
 				if (ownerGameObject != null && expectedType != null && !ownerGameObject.GetComponent (expectedType))
+				{
+					rowCount++;
+				}
+			} else if (selection.enumValueIndex == 0) // main Camera
+			{
+				if (Camera.main != null && expectedType != null && !Camera.main.GetComponent (expectedType))
 				{
 					rowCount++;
 				}
@@ -103,7 +108,7 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 
 
 			selection = prop.FindPropertyRelative("selection");
-			gameObject = prop.FindPropertyRelative("gameObject");
+			gameObject = prop.FindPropertyRelative("_gameObject");
 			expectedComponentType = prop.FindPropertyRelative("expectedComponentType");
 
 			int row =0; 
@@ -134,10 +139,15 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 
 			if (oldEnumIndex !=selection.enumValueIndex)
 			{
-				gameObject.objectReferenceValue = ownerGameObject;
+				
+				if (selection.enumValueIndex !=0)
+				{
+					gameObject.objectReferenceValue = ownerGameObject;
+				}
+
 			}
 
-			if (selection.enumValueIndex == 1)
+			if (selection.enumValueIndex == 2) // selection
 			{
 				EditorGUI.indentLevel++;
 
@@ -155,7 +165,7 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 				expectedComponentType.stringValue = ExpectComponent.GetTypeAsString (expectedType);
 			}
 
-			if (selection.enumValueIndex == 1)
+			if (selection.enumValueIndex == 2)
 			{
 				if (gameObject.objectReferenceValue != null)
 				{
@@ -174,7 +184,7 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 
 				}
 
-			}else{
+			}else if  (selection.enumValueIndex == 1){
 
 				if (ownerGameObject != null && expectedType != null && !ownerGameObject.GetComponent (expectedType))
 				{
@@ -186,6 +196,18 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 					);
 				}
 		
+			}else if  (selection.enumValueIndex == 0){
+
+				if (Camera.main != null && expectedType != null && !Camera.main.GetComponent (expectedType))
+				{
+					EditorGUI.indentLevel++;
+					EditorGUI.LabelField (
+						GetRectforRow (pos, ++row - 1),
+						"<color=red>missing Component</color>",
+						"<color=red>" + expectedType + "</color>"
+					);
+				}
+
 			}
 
 

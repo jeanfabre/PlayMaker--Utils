@@ -18,7 +18,7 @@ namespace HutongGames.PlayMaker.Actions
 		public FsmString[] keys;
 		public FsmVar[] datas;
 		
-		public static Dictionary<string,object> properties;
+		public static Dictionary<string,object> properties = new Dictionary<string, object>();
 		
 		
 		public override void Reset()
