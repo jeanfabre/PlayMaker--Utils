@@ -1,5 +1,11 @@
 #PlayMaker Utils Change log
 
+###1.4.1
+**Release Date:** 05/06/2017  
+
+**new**: new `PlayMakerUtils.SendEventToTarget` to leverage sending events
+
+
 ###1.4
 **Release Date:** 01/06/2017
 

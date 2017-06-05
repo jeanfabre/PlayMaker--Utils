@@ -11,6 +11,17 @@ public partial class PlayMakerUtils {
 	/// </summary>
 	public static PlayMakerFSM FsmEventSender;
 
+	public static PlayMakerFSM GetFsmEventSender()
+	{
+		if (FsmEventSender==null)
+		{
+			FsmEventSender = new GameObject("PlayMaker Send Event Proxy").AddComponent<PlayMakerFSM>();
+			//FsmEventSender.hideFlags = HideFlags.HideAndDontSave; // not too sure if I should hide it or not.. cause we can't define the event sender yet
+			FsmEventSender.FsmName = "Send Event Proxy";
+			FsmEventSender.FsmDescription = "This Fsm was created at runtime, because a script or component is willing to send a PlayMaker event";
+		}
+		return FsmEventSender;
+	}
 
 	public static void CreateIfNeededGlobalEvent(string globalEventName)
 	{
@@ -21,6 +32,27 @@ public partial class PlayMakerUtils {
 			_event.IsGlobal = true;
 			FsmEvent.AddFsmEvent(_event);
 		}
+	}
+
+
+	public static void SendEventToTarget(PlayMakerFSM fromFsm,FsmEventTarget target,string fsmEvent,FsmEventData eventData)
+	{
+		if (fromFsm==null)
+		{
+			fromFsm = GetFsmEventSender();
+		}
+		
+		if (eventData!=null)
+		{
+			HutongGames.PlayMaker.Fsm.EventData = eventData;
+		}
+		
+		if (fromFsm == null)
+		{
+			return;
+		}
+
+		fromFsm.Fsm.Event(target,fsmEvent);
 	}
 
 	public static void SendEventToGameObject(PlayMakerFSM fromFsm,GameObject target,string fsmEvent,bool includeChildren)
@@ -40,19 +72,10 @@ public partial class PlayMakerUtils {
 	
 	public static void SendEventToGameObject(PlayMakerFSM fromFsm,GameObject target,string fsmEvent,bool includeChildren,FsmEventData eventData)
 	{
-
 		if (fromFsm==null)
 		{
-			if (FsmEventSender==null)
-			{
-				FsmEventSender = new GameObject("PlayMaker Send Event Proxy").AddComponent<PlayMakerFSM>();
-				//FsmEventSender.hideFlags = HideFlags.HideAndDontSave; // not too sure if I should hide it or not.. cause we can't define the event sender yet
-				FsmEventSender.FsmName = "Send Event Proxy";
-				FsmEventSender.FsmDescription = "This Fsm was created at runtime, because a script or component is willing to send a PlayMaker event";
-			}
-			fromFsm = FsmEventSender;
+			fromFsm = GetFsmEventSender();
 		}
-
 
 		if (eventData!=null)
 		{
@@ -238,6 +261,11 @@ public partial class PlayMakerUtils {
 
 		return _event;
 	}
+
+
+
+
+
 
 	/*
 	public bool DoesTargetMissEventImplementation(PlayMakerFSM fsm, string fsmEvent)
