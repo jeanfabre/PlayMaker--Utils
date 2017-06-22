@@ -1,7 +1,7 @@
 #PlayMaker Utils Change log
 
 ###1.4.2
-**Release Date:** 05/06/2017  
+**Release Date:** 22/06/2017  
 
 **new**: new `PlayMakerUtils_conversions` to convert non nullable objects like rect, quaternions, vectors, from an object pointer.  
 
