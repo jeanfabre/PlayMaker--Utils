@@ -56,9 +56,9 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 			this.eventName = defaultEventName;
 		}
 
-		public bool SendEvent(PlayMakerFSM fromFsm,PlayMakerEventTarget eventTarget)
+		public PlayMakerFSM SanitizeFsmEventSender(PlayMakerFSM fsm)
 		{
-			if (fromFsm==null)
+			if (fsm==null)
 			{
 				if (PlayMakerUtils.FsmEventSender==null)
 				{
@@ -66,10 +66,38 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 					PlayMakerUtils.FsmEventSender.FsmName = "Send Event Proxy";
 					PlayMakerUtils.FsmEventSender.FsmDescription = "This Fsm was created at runtime, because a script or component is willing to send a PlayMaker event";
 				}
-				fromFsm = PlayMakerUtils.FsmEventSender;
+
+				return PlayMakerUtils.FsmEventSender;
 			}
 
-		//	Debug.Log("Sending event <"+eventName+"> from fsm:"+fromFsm.FsmName+" "+eventTarget.eventTarget+" "+eventTarget.gameObject+" "+eventTarget.fsmComponent);
+			return fsm;
+		}
+
+		public bool SendEvent(PlayMakerFSM fromFsm,PlayMakerTimelineEventTarget eventTarget)
+		{
+			fromFsm = SanitizeFsmEventSender(fromFsm);
+
+			Debug.Log("Sending event <"+eventName+"> from fsm:"+fromFsm.FsmName+" "+eventTarget.eventTarget+" "+eventTarget.gameObject+" "+eventTarget.fsmComponent);
+
+			if (eventTarget.eventTarget == ProxyEventTarget.BroadCastAll)
+			{
+				PlayMakerFSM.BroadcastEvent(eventName);
+			}else if (eventTarget.eventTarget == ProxyEventTarget.Owner || eventTarget.eventTarget == ProxyEventTarget.GameObject)
+			{
+				PlayMakerUtils.SendEventToGameObject(fromFsm,eventTarget.gameObject,eventName,eventTarget.includeChildren);
+			}else if (eventTarget.eventTarget == ProxyEventTarget.FsmComponent)
+			{
+				eventTarget.fsmComponent.SendEvent(eventName);
+			}
+
+			return true;
+		}
+
+		public bool SendEvent(PlayMakerFSM fromFsm,PlayMakerEventTarget eventTarget)
+		{
+			fromFsm = SanitizeFsmEventSender(fromFsm);
+
+			Debug.Log("Sending event <"+eventName+"> from fsm:"+fromFsm.FsmName+" "+eventTarget.eventTarget+" "+eventTarget.gameObject+" "+eventTarget.fsmComponent);
 
 			if (eventTarget.eventTarget == ProxyEventTarget.BroadCastAll)
 			{

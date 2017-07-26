@@ -1,5 +1,10 @@
 #PlayMaker Utils Change log
 
+###1.5
+**Release Date:** pending  
+
+**new**: new `PlayMakerTimelineEventTarget` for creating convenient proxies for timeline
+
 ###1.4.2
 **Release Date:** 22/06/2017  
 
