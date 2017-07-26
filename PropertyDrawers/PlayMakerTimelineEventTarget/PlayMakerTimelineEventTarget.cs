@@ -1,5 +1,6 @@
 ﻿// (c) Copyright HutongGames, LLC 2010-2015. All rights reserved.
 
+#if UNITY_2017
 using System;
 using UnityEngine;
 using System.Text.RegularExpressions;
@@ -98,3 +99,4 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 	}
 
 }
+#endif

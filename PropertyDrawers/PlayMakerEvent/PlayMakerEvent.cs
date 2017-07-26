@@ -72,7 +72,7 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 
 			return fsm;
 		}
-
+		#if UNITY_2017
 		public bool SendEvent(PlayMakerFSM fromFsm,PlayMakerTimelineEventTarget eventTarget)
 		{
 			fromFsm = SanitizeFsmEventSender(fromFsm);
@@ -92,6 +92,7 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 
 			return true;
 		}
+		#endif
 
 		public bool SendEvent(PlayMakerFSM fromFsm,PlayMakerEventTarget eventTarget)
 		{
