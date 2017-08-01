@@ -5,6 +5,8 @@
 
 **new**: new `PlayMakerTimelineEventTarget` for creating convenient proxies for timeline
 
+**new**: debug optional parameter for `PlayMakerEvent` `sendevent()` call
+
 ###1.4.2
 **Release Date:** 22/06/2017  
 
