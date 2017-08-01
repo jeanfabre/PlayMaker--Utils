@@ -73,11 +73,11 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 			return fsm;
 		}
 		#if UNITY_2017
-		public bool SendEvent(PlayMakerFSM fromFsm,PlayMakerTimelineEventTarget eventTarget)
+		public bool SendEvent(PlayMakerFSM fromFsm,PlayMakerTimelineEventTarget eventTarget,bool debug = false)
 		{
 			fromFsm = SanitizeFsmEventSender(fromFsm);
 
-			Debug.Log("Sending event <"+eventName+"> from fsm:"+fromFsm.FsmName+" "+eventTarget.eventTarget+" "+eventTarget.gameObject+" "+eventTarget.fsmComponent);
+			if (debug) Debug.Log("Sending event <"+eventName+"> from fsm:"+fromFsm.FsmName+" "+eventTarget.eventTarget+" "+eventTarget.gameObject+" "+eventTarget.fsmComponent);
 
 			if (eventTarget.eventTarget == ProxyEventTarget.BroadCastAll)
 			{
@@ -94,11 +94,11 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 		}
 		#endif
 
-		public bool SendEvent(PlayMakerFSM fromFsm,PlayMakerEventTarget eventTarget)
+		public bool SendEvent(PlayMakerFSM fromFsm,PlayMakerEventTarget eventTarget,bool debug = false)
 		{
 			fromFsm = SanitizeFsmEventSender(fromFsm);
 
-			Debug.Log("Sending event <"+eventName+"> from fsm:"+fromFsm.FsmName+" "+eventTarget.eventTarget+" "+eventTarget.gameObject+" "+eventTarget.fsmComponent);
+			if (debug) Debug.Log("Sending event <"+eventName+"> from fsm:"+fromFsm.FsmName+" "+eventTarget.eventTarget+" "+eventTarget.gameObject+" "+eventTarget.fsmComponent);
 
 			if (eventTarget.eventTarget == ProxyEventTarget.BroadCastAll)
 			{
