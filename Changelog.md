@@ -7,6 +7,8 @@
 
 **new**: debug optional parameter for `PlayMakerEvent` `sendevent()` call
 
+**new**: Editor Utils to copy string to clipboard `PlayMakerEditorUtils.CopyTextToClipboard()`
+
 ###1.4.2
 **Release Date:** 22/06/2017  
 

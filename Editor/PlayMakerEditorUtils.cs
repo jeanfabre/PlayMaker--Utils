@@ -289,4 +289,12 @@ public class PlayMakerEditorUtils : Editor {
 		}
 	}
 
+	public static void CopyTextToClipboard(string content)
+	{
+		TextEditor te = new TextEditor();
+		te.content = new GUIContent(content);
+		te.SelectAll();
+		te.Copy();
+	}
+
 }
