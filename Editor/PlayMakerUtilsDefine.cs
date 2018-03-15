@@ -19,19 +19,12 @@ public class PlayMakerUtilsDefines
 	{
 
 		#if ! PLAYMAKER_UTILS
-			#if PLAYMAKER_1_9_OR_NEWER
-				Defines.AddSymbolToAllTargets("PLAYMAKER_UTILS");
-			#else
-				PlayMakerDefines.AddScriptingDefineSymbolToAllTargets("PLAYMAKER_UTILS");
-			#endif
+			PlayMakerEditorUtils.MountScriptingDefineSymbolToAllTargets("PLAYMAKER_UTILS");
+			
 		#endif
 
 		#if ! PLAYMAKER_UTILS_1_4_OR_NEWER
-			#if PLAYMAKER_1_9_OR_NEWER
-				Defines.AddSymbolToAllTargets("PLAYMAKER_UTILS_1_4_OR_NEWER");
-			#else
-				PlayMakerDefines.AddScriptingDefineSymbolToAllTargets("PLAYMAKER_UTILS_1_4_OR_NEWER");
-			#endif
+			PlayMakerEditorUtils.UnMountScriptingDefineSymbolToAllTargets("PLAYMAKER_UTILS_1_4_OR_NEWER");
 		#endif
 
 	}
