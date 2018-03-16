@@ -27,6 +27,9 @@ public class PlayMakerUtilsDefines
 			PlayMakerEditorUtils.UnMountScriptingDefineSymbolToAllTargets("PLAYMAKER_UTILS_1_4_OR_NEWER");
 		#endif
 
+		#if ! PLAYMAKER_UTILS_1_5_OR_NEWER
+			PlayMakerEditorUtils.UnMountScriptingDefineSymbolToAllTargets("PLAYMAKER_UTILS_1_5_OR_NEWER");
+		#endif
 	}
 
 }
