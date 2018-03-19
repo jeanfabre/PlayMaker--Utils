@@ -57,7 +57,7 @@ public class PlayMakerCurrentEventDataEditor : EditorWindow {
 	string SentByFsm ="";
 	PlayMakerFSM SentByFsmComponent;
 	string SentByFsmState = "";
-	string SentByFsmAction = "";
+	//string SentByFsmAction = "";
 
 	void OnGUI () {wantsMouseMove = true;
 
