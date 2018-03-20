@@ -1,7 +1,7 @@
 #PlayMaker Utils Change log
 
 ###1.5
-**Release Date:** 19/03/2018  
+**Release Date:** 20/03/2018  
 
 **new**: new `PlayMakerTimelineEventTarget` for creating convenient proxies for timeline
 
@@ -10,6 +10,8 @@
 **new**: Editor Utils to copy string to clipboard `PlayMakerEditorUtils.CopyTextToClipboard()`
 
 **Fix**: Fixed mounting and unmounting scripting symbols, properly based on PlaymakerDefines.cs. 
+
+**Fix**: ProceduralMaterial support rule for 2017 and 2018
 
 **new**: `PLAYMAKER_UTILS_1_5_OR_NEWER` symbol
 

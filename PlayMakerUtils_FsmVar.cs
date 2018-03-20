@@ -366,7 +366,7 @@ public partial class PlayMakerUtils {
 			#endif
 			if (!ok)
 			{
-				#if UNITY_WEBGL
+				#if UNITY_WEBGL || UNITY_2017_1_OR_NEWER  || UNITY_2018_1_OR_NEWER
 				// proceduralMaterial not supported
 				#else
 				if (valueType.Equals(typeof(ProceduralMaterial))) // we are ok
