@@ -444,7 +444,7 @@ public partial class PlayMakerUtils {
 			FsmMaterial _target= fromFsm.Variables.GetFsmMaterial(fsmVar.variableName);
 			_target.Value = (Material)value;
 
-		#if UNITY_WEBGL
+		#if UNITY_WEBGL || UNITY_2017_1_OR_NEWER  || UNITY_2018_1_OR_NEWER
 		// proceduralMaterial not supported
 		#else
 		}else if(valueType == typeof(ProceduralMaterial) ){
