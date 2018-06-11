@@ -27,8 +27,8 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 					valueRect = new Rect(position.x, position.y, position.width/2f, position.height);
 					buttonRect = new Rect(position.x + position.width/2f, position.y, position.width/2f, position.height);
 					
-					EditorGUI.PropertyField(valueRect, property, GUIContent.none);
-					if (GUI.Button(buttonRect, battribute.buttonName)) {
+                    EditorGUI.PropertyField(buttonRect, property, GUIContent.none);
+                    if (GUI.Button(valueRect, battribute.buttonName)) {
 						method.Invoke(obj, new object[]{fieldInfo.GetValue(obj)});
 					}
 					

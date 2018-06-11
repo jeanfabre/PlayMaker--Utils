@@ -247,6 +247,19 @@ namespace HutongGames.PlayMakerEditor
 				ReBuildPreview = true;
 			}
 
+            // Parameter
+           
+            GUILayout.Label("Public Method/Message Parameter:");
+
+            PlayMakerEventProxyCreator.ParameterType _param = (PlayMakerEventProxyCreator.ParameterType) EditorGUILayout.EnumPopup("",currentDefinition.Parameter) ;
+           
+            if (_param != currentDefinition.Parameter)
+            {
+                currentDefinition.Parameter =_param;
+                ReBuildPreview = true;
+            }
+
+
 			GUILayout.Label("FileName being generated: "+currentDefinition.Name+".cs");
 
 			FsmEditorGUILayout.Divider();

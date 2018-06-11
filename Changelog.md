@@ -1,5 +1,11 @@
 #PlayMaker Utils Change log
 
+###1.5.1
+**Release Date:** 11/06/2018  
+
+**Improvement** `EventProxyWizard` now can accepts a single parameter passed as `EventData` to the playmaker event
+
+
 ###1.5
 **Release Date:** 20/03/2018  
 
