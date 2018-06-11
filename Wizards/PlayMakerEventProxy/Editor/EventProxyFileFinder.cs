@@ -55,11 +55,66 @@ namespace HutongGames.PlayMakerEditor.Ecosystem.Utils
 						methodName = methodNameMatch.Groups[1].Value;
 					}
 
+                    PlayMakerEventProxyCreator.ParameterType methodParamType = PlayMakerEventProxyCreator.ParameterType.none;
+                    Match methodParamTypeMatch = Regex.Match(codeFile, @"\((\w*) parameter\)");
+                    if (methodParamTypeMatch.Success)
+                    {
+                       
+                        string _type = methodParamTypeMatch.Groups[1].Value;
+
+                        switch (_type)
+                        {
+                            case "float":
+                                methodParamType = PlayMakerEventProxyCreator.ParameterType.Float;
+                                break;
+                            case "int":
+                                methodParamType = PlayMakerEventProxyCreator.ParameterType.Int;
+                                break;
+                            case "bool":
+                                methodParamType = PlayMakerEventProxyCreator.ParameterType.Bool;
+                                break;
+                            case "GameObject":
+                                methodParamType = PlayMakerEventProxyCreator.ParameterType.GameObject;
+                                break;
+                            case "String":
+                                methodParamType = PlayMakerEventProxyCreator.ParameterType.String;
+                                break;
+                            case "Vector2":
+                                methodParamType = PlayMakerEventProxyCreator.ParameterType.Vector2;
+                                break;
+                            case "Vector3":
+                                methodParamType = PlayMakerEventProxyCreator.ParameterType.Vector3;
+                                break;
+                            case "Color":
+                                methodParamType = PlayMakerEventProxyCreator.ParameterType.Color;
+                                break;
+                            case "Rect":
+                                methodParamType = PlayMakerEventProxyCreator.ParameterType.Rect;
+                                break;
+                            case "Material":
+                                methodParamType = PlayMakerEventProxyCreator.ParameterType.Material;
+                                break;
+                            case "Texture":
+                                methodParamType = PlayMakerEventProxyCreator.ParameterType.Texture;
+                                break;
+                            case "Quaternion":
+                                methodParamType = PlayMakerEventProxyCreator.ParameterType.Quaternion;
+                                break;
+                            case "Object":
+                                methodParamType = PlayMakerEventProxyCreator.ParameterType.Object;
+                                break;
+                            default:
+                                methodParamType = PlayMakerEventProxyCreator.ParameterType.none;
+                                break;
+                        }
+                    }
+
 
 					EventProxyFileDetails _details = new EventProxyFileDetails(
 						className, 
 						nameSpace,
 						methodName,
+                        methodParamType,
 						fileName,
 						filePath, 
 						_info.LastWriteTimeUtc
@@ -140,6 +195,20 @@ namespace HutongGames.PlayMakerEditor.Ecosystem.Utils
 			}
 		}
 
+        PlayMakerEventProxyCreator.ParameterType _methodParamType = PlayMakerEventProxyCreator.ParameterType.none;
+
+        /// <summary>
+        /// Gets the method Type.
+        /// </summary>
+        /// <value>The method parameter Type</value>
+        public PlayMakerEventProxyCreator.ParameterType methodParamType
+        {
+            get
+            {
+                return _methodParamType;
+            }
+        }
+
 		string _fileName;
 		
 		/// <summary>
@@ -199,16 +268,18 @@ namespace HutongGames.PlayMakerEditor.Ecosystem.Utils
 			                      "<b>NameSpace:</b> {0}\n" +
 			                      "<b>className:</b> {1}\n" +
 			                      "<b>method:</b> {2}\n" +
-			                      "<b>projectPath:</b> {3}\n" +
-			                      "<b>updateTime:</b> {4}", nameSpace,className,methodName,projectPath, updateTime);
+                                  "<b>param:</b> {3}\n" +
+			                      "<b>projectPath:</b> {4}\n" +
+                                  "<b>updateTime:</b> {5}", nameSpace,className,methodName,methodParamType,projectPath, updateTime);
 		}
 		
 		internal EventProxyFileDetails() {}
-		internal EventProxyFileDetails(string className,string nameSpace,string methodName,string fileName, string filePath, System.DateTime updateTime)
+        internal EventProxyFileDetails(string className,string nameSpace,string methodName, PlayMakerEventProxyCreator.ParameterType methodParamType,string fileName, string filePath, System.DateTime updateTime)
 		{
 			_className = className;
 			_nameSpace = nameSpace;
 			_methodName = methodName;
+            _methodParamType = methodParamType;
 			_fileName = fileName;
 			_filePath = filePath;
 			_updateTime = updateTime;
