@@ -1,5 +1,10 @@
 #PlayMaker Utils Change log
 
+###1.5.2
+**Release Date:** 27/06/2018  
+
+**new**: new `Current Event Data` for viewing live the current event data being used.
+
 ###1.5.1
 **Release Date:** 11/06/2018  
 

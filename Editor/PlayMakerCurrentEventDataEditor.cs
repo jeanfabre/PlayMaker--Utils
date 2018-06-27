@@ -188,28 +188,27 @@ public class PlayMakerCurrentEventDataEditor : EditorWindow {
 			Fsm.EventData.ObjectData = _g;
 		}
 
-		OnGUI_Title("Send Event");
-
-
-		
-		if (_mpes == null)
-		{
-			_mpes =ScriptableObject.CreateInstance<EventDataSenderProxy> ();
-		}
-
-		if (m_serializedObject == null) {
-			m_serializedObject = new UnityEditor.SerializedObject(_mpes);
-			m_EventTargetProperty = m_serializedObject.FindProperty("EventTarget");
-			//window.m_serializedProperty  = m_serializedObject.FindProperty("foobar");
-		}
-
-
-		EditorGUIUtility.LookLikeControls ();
-		m_serializedObject.Update();
-
-		EditorGUILayout.PropertyField(m_EventTargetProperty , true);
-
-		m_serializedObject.ApplyModifiedProperties();
+//		OnGUI_Title("Send Event");
+//
+//
+//		
+//		if (_mpes == null)
+//		{
+//			_mpes =ScriptableObject.CreateInstance<EventDataSenderProxy> ();
+//		}
+//
+//		if (m_serializedObject == null) {
+//			m_serializedObject = new UnityEditor.SerializedObject(_mpes);
+//			m_EventTargetProperty = m_serializedObject.FindProperty("EventTarget");
+//			//window.m_serializedProperty  = m_serializedObject.FindProperty("foobar");
+//		}
+//
+//
+//		m_serializedObject.Update();
+//
+//		EditorGUILayout.PropertyField(m_EventTargetProperty , true);
+//
+//		m_serializedObject.ApplyModifiedProperties();
 
 
 
