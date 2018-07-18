@@ -1,5 +1,10 @@
 #PlayMaker Utils Change log
 
+###1.5.3
+**Release Date:** 18/07/2018  
+
+**fixed**: removed unwanted Editor reference that prevented builds
+
 ###1.5.2
 **Release Date:** 27/06/2018  
 
