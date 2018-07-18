@@ -5,6 +5,9 @@
 
 **fixed**: removed unwanted Editor reference that prevented builds
 
+**fixed**: leveraged global event creation with better checks
+
+
 ###1.5.2
 **Release Date:** 27/06/2018  
 
