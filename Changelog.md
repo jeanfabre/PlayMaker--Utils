@@ -1,5 +1,9 @@
 #PlayMaker Utils Change log
 
+###1.5.4
+**Release Date:** 20/07/2018  
+
+**new**: VersionInfo class to help finding out addons versions and misc
 
 ###1.5.3
 **Release Date:** 18/07/2018  
