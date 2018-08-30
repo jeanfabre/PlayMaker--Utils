@@ -1,5 +1,12 @@
 #PlayMaker Utils Change log
 
+###1.5.5
+**Release Date:** 30/08/2018  
+
+**new**: `PlayMakerUtils.LogFullPathToAction(FsmStateAction)`  
+**new**: `PlayMakerUtils.LogFullPathToAction.GetGameObjectPath(GameObject)`  
+
+
 ###1.5.4
 **Release Date:** 20/07/2018  
 

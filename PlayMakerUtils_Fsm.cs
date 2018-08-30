@@ -25,4 +25,23 @@ public partial class PlayMakerUtils {
 
 		return null;
 	}
+
+
+	public static string LogFullPathToAction(FsmStateAction action)
+	{
+		return GetGameObjectPath (action.Fsm.GameObject) + ":Fsm(" +
+			action.Fsm.Name + "):State(" + action.State.Name + "):Action(" + action.GetType ().Name+")";
+	}
+
+
+	public static string GetGameObjectPath(GameObject obj)
+	{
+		string path = "/" + obj.name;
+		while (obj.transform.parent != null)
+		{
+			obj = obj.transform.parent.gameObject;
+			path = "/" + obj.name + path;
+		}
+		return path;
+	}
 }
