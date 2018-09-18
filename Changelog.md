@@ -1,5 +1,11 @@
 #PlayMaker Utils Change log
 
+
+###1.5.6
+**Release Date:** 18/09/2018  
+
+**fixed**: Brought back `GetFsmOnGameObject` method to compliment `FindFsmOnGameObject` and return an Fsm instead of PlayMakerFSM object, this is to ease updates of old projects.
+
 ###1.5.5
 **Release Date:** 30/08/2018  
 

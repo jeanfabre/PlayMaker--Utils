@@ -8,6 +8,25 @@ using HutongGames.PlayMaker;
 
 public partial class PlayMakerUtils {
 
+
+	public static Fsm GetFsmOnGameObject(GameObject go,string fsmName)
+	{
+		if (go==null || string.IsNullOrEmpty(fsmName))
+		{
+			return null;
+		}
+		
+		foreach(PlayMakerFSM _fsm in go.GetComponents<PlayMakerFSM>())
+		{
+			if (string.Equals(_fsm.FsmName,fsmName))
+			{
+				return _fsm.Fsm;
+			}
+		}
+		
+		return null;
+	}
+
 	public static PlayMakerFSM FindFsmOnGameObject(GameObject go,string fsmName)
 	{
 		if (go==null || string.IsNullOrEmpty(fsmName))
