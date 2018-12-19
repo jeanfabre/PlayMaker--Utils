@@ -1,4 +1,4 @@
-﻿// (c) Copyright HutongGames, LLC 2010-2016. All rights reserved.
+// (c) Copyright HutongGames, LLC 2010-2016. All rights reserved.
 
 using System;
 using System.IO;
@@ -168,8 +168,13 @@ namespace HutongGames.PlayMakerEditor.Ecosystem.Utils
 
 			}else{
 				EditorGUIUtility.AddCursorRect(cursorChangeRect,MouseCursor.ResizeVertical);
-				if( Event.current.type == EventType.mouseDown && cursorChangeRect.Contains(Event.current.mousePosition)){
-					resize = true;
+#if UNITY_5_3_OR_NEWER
+                if (Event.current.type == EventType.MouseDown && cursorChangeRect.Contains(Event.current.mousePosition))
+                {
+#else
+                if( Event.current.type == EventType.mouseDown && cursorChangeRect.Contains(Event.current.mousePosition)){
+#endif
+                    resize = true;
 					currentScrollViewHeight = Event.current.mousePosition.y;
 
 				}
