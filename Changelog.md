@@ -1,5 +1,10 @@
 #PlayMaker Utils Change log
 
+###1.5.8
+**Release Date:** 17/01/2019  
+
+**fixed**: Updated Enum Creator Wizard to work on Unity 2018
+
 ###1.5.7
 **Release Date:** 18/12/2018  
 
