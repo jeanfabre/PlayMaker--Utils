@@ -2,7 +2,7 @@ PlayMaker--Utils
 ================
 
 ## Licensing
-This package is released under LGPL license: [http://opensource.org/licenses/LGPL-3.0](http://opensource.org/licenses/LGPL-3.0)
+This package is released under MIT license: [http://opensource.org/licenses/LGPL-3.0](https://github.com/jeanfabre/PlayMaker--Utils/blob/master/LICENSE)
 
 
 ## Description
