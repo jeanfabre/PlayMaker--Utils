@@ -1,5 +1,10 @@
 #PlayMaker Utils Change log
 
+###1.5.9
+**Release Date:** 05/04/2019  
+
+**Update**: switched from LGPL to MIT license
+
 ###1.5.8
 **Release Date:** 17/01/2019  
 
