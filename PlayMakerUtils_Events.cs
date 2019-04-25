@@ -33,7 +33,7 @@ public partial class PlayMakerUtils {
 		
 		if (eventData!=null)
 		{
-			HutongGames.PlayMaker.Fsm.EventData = eventData;
+		    Fsm.EventData = eventData;
 		}
 		
 		if (fromFsm == null)
@@ -228,13 +228,16 @@ public partial class PlayMakerUtils {
         {
             if (_event == null)
             {
-                _event = new FsmEvent(globalEventName);
+                _event = new FsmEvent(globalEventName) { IsGlobal = true };
                 FsmEvent.AddFsmEvent(_event);
+                if (!FsmEvent.globalEvents.Contains(globalEventName))
+                {
+                    FsmEvent.globalEvents.Add(globalEventName);
+                }
             }
 
             result = true;
 
-            _event.IsGlobal = true;
         }
 
         return result;
