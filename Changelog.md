@@ -1,5 +1,10 @@
 #PlayMaker Utils Change log
 
+###1.6.0
+**Release Date:** 26/07/2019  
+
+**New**: New method `PlayMakerEditorUtils.CreateGlobalEventsIfNeeded(...)` to create global asset, stored in PlayMaker Globals asset
+
 ###1.5.9
 **Release Date:** 05/04/2019  
 
