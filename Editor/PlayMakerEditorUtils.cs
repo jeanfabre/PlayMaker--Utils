@@ -4,12 +4,9 @@ using UnityEngine;
 using UnityEditor;
 
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-
-using HutongGames;
 using HutongGames.PlayMaker;
 using HutongGames.PlayMakerEditor;
 
@@ -384,4 +381,43 @@ public class PlayMakerEditorUtils : Editor {
 		te.Copy();
 	}
 
+	/// <summary>
+	/// Add if necessary a list of Global events to the PlayMaker Globals resources to be available in the global events list
+	/// </summary>
+	/// <param name="events"></param>
+	public static void CreateGlobalEventsIfNeeded(string[] events)
+	{
+		bool _isDirty = false;
+		
+		
+		foreach (string _eventName in events)
+		{
+			if (!FsmEvent.IsEventGlobal(_eventName))
+			{
+				PlayMakerGlobals.AddGlobalEvent(_eventName);
+				//	Debug.Log("Adding global event: "+_eventName);
+				_isDirty = true;
+			}
+		}
+
+		if (_isDirty)
+		{
+			FsmEditor.SaveGlobals();
+			for (int index = 0; index < FsmEvent.globalEvents.Count; ++index)
+				new FsmEvent(FsmEvent.globalEvents[index]).IsGlobal = true;
+
+
+			FsmEventsWindow.ResetView();
+		}
+	}
+
+	/// <summary>
+	/// Add if necessary a Global event to the PlayMaker Globals resources to be available in the global events list
+	/// </summary>
+	/// <param name="eventName"></param>
+	public static void CreateGlobalEventIfNeeded(string eventName)
+	{
+		CreateGlobalEventsIfNeeded(new[] {eventName});
+	}
+	
 }
