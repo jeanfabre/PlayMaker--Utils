@@ -5,6 +5,8 @@
 
 **New**: New method `SendEventToGameObjectFsmByName(...)` to send an event to a specific fsm by name
 
+**fixed**: fixed Enum Creator Wizard editing refresh and ordered of enum list.
+
 ###1.6.0
 **Release Date:** 26/07/2019  
 
