@@ -93,6 +93,17 @@ public partial class PlayMakerUtils {
 
 	}
 
+	public static void SendEventToGameObjectFsmByName(PlayMakerFSM fromFsm, GameObject target,string fsmName, string fsmEvent, FsmEventData eventData)
+	{
+		FsmEventTarget _target = new FsmEventTarget();
+		_target.target = FsmEventTarget.EventTarget.GameObjectFSM;
+		_target.gameObject = new FsmOwnerDefault();
+		_target.gameObject.OwnerOption = OwnerDefaultOption.SpecifyGameObject;
+		_target.gameObject.GameObject = target;
+		_target.fsmName = fsmName;
+
+		SendEventToTarget(fromFsm, _target, fsmEvent, eventData);
+	}
 	
 	public static bool DoesTargetImplementsEvent(FsmEventTarget target,string eventName)
 	{

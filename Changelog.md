@@ -1,5 +1,10 @@
 #PlayMaker Utils Change log
 
+###1.6.1
+**Release Date:** 04/10/2019  
+
+**New**: New method `SendEventToGameObjectFsmByName(...)` to send an event to a specific fsm by name
+
 ###1.6.0
 **Release Date:** 26/07/2019  
 
