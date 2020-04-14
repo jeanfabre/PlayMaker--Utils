@@ -76,7 +76,7 @@ public partial class PlayMakerUtils {
 		case VariableType.GameObject:
 			fsmVar.GetValueFrom( (NamedVariable)fromFsm.Variables.GetFsmGameObject(fsmVar.variableName));
 			break;
-		#if PLAYMAKER_1_8
+		#if PLAYMAKER_1_8_OR_NEWER
 		case VariableType.Enum:
 			fsmVar.GetValueFrom( (NamedVariable)fromFsm.Variables.GetFsmEnum(fsmVar.variableName));
 			break;
