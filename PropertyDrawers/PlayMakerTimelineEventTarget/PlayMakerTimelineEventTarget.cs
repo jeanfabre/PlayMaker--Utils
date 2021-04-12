@@ -1,11 +1,8 @@
 ﻿// (c) Copyright HutongGames, LLC 2010-2015. All rights reserved.
 
-#if UNITY_2017
+#if UNITY_2017_1_OR_NEWER
 using System;
 using UnityEngine;
-using System.Text.RegularExpressions;
-
-using HutongGames.PlayMaker;
 
 namespace HutongGames.PlayMaker.Ecosystem.Utils
 {

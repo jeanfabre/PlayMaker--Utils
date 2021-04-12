@@ -1,8 +1,13 @@
 #PlayMaker Utils Change log
 
-###1.6.2
-**Release Date:** 04/10/2019  
+###1.6.3
+**Release Date:** 12/04/2021
 
+**fixed**: fixed PlayMakerEvent and PlayMakerTimelineEventTarget to support all new versions of unity starting from 2017
+
+
+###1.6.2
+**Release Date:** 04/10/2020  
 
 **fixed**: fixed playmaker 1.9 support for enums ( used in `GetEventProperties` for example)
 

@@ -72,7 +72,7 @@ namespace HutongGames.PlayMaker.Ecosystem.Utils
 
 			return fsm;
 		}
-		#if UNITY_2017
+		#if UNITY_2017_1_OR_NEWER
 		public bool SendEvent(PlayMakerFSM fromFsm,PlayMakerTimelineEventTarget eventTarget,bool debug = false)
 		{
 			fromFsm = SanitizeFsmEventSender(fromFsm);
